@@ -13,9 +13,14 @@ app.configure(function () {
 	});
 });
 
+app.get('/page', config.find); 
 app.get('/page/:pageKey', config.load); 
 app.post('/page', config.create); 
 app.post('/page/:pageKey', config.update); 
+
+app.get('/',  function(req,res){
+	res.sendfile(__dirname+'/public/index.html');
+});
 
 var server=http.createServer(app);
 server.listen(3000); 

@@ -1,0 +1,12 @@
+{
+  "name": "conductor",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "step": "0.0.5",
+    "mongodb":"1.2.14"
+  }
+}

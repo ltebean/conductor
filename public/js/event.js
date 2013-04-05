@@ -7,12 +7,14 @@ define(function(require,exports,module){
     }
 
     function off(name){
-        delete this.events[name];
+        if(this.events && this.events[name]){
+            delete this.events[name];
+        }
     }
 
     function fire(name,eventArgs){
         var self = this;
-        var events = this.events[name] || [];
+        var events = (this.events && this.events[name]) || [];
         events.forEach(function(func){
             func.call(self,eventArgs);
         });
@@ -25,6 +27,10 @@ define(function(require,exports,module){
             target.prototype.on = on;
             target.prototype.off = off;
             target.prototype.fire = fire;
+        }else{
+            target.on = on;
+            target.off = off;
+            target.fire = fire;
         }
     }
 

@@ -10,6 +10,8 @@ define(function(require,exports,module){
     function Dyer(opt){
         this.doc = opt.doc || document;
         this.color = opt.color;
+        this.films = [];
+        Dyer.activeInstance = this;
     }
 
     /**
@@ -18,29 +20,30 @@ define(function(require,exports,module){
      * @param  {} context [description]
      * @return {[type]}         [description]
      */
-    Dyer.prototype.dyne = function(elem){
-        elem = $(elem);
-        var doc = this.doc;
+    Dyer.prototype.dye = function(elem){
+        elem = $(elem,this.doc);
         var offset = elem.offset();
         var film = $("<div />").css({
             "position":"absolute",
             "background-color":this.color,
             "opacity":.8,
-            "width":elem.width() + parseInt(elem.css("paddingLeft")) + parseInt(elem.css("paddingRight")),
-            "height":elem.height() + parseInt(elem.css("paddingTop")) + parseInt(elem.css("paddingBottom")),
+            "width":elem.outerWidth(),
+            "height":elem.outerHeight(),
             "top":offset.top,
             "left":offset.left,
             "pointer-events":"none",
             "z-index":9999
         });
-        this.current = film;
-        film.appendTo(doc.body);
+        this.films.push(film);
+        film.appendTo(this.doc.body);
     }
 
     Dyer.prototype.clear = function(){
-        var current = this.current
-        current && current.remove();
-        current = null;
+        var film;
+        while(this.films.length){
+            film = this.films.pop();
+            film.remove();
+        }
     }
 
     module.exports = Dyer;

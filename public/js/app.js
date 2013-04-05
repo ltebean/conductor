@@ -1,47 +1,67 @@
 define(function(require,exports,module){
 
-    var Identifier = require("identifier")
+    var Identifier = require("identifier");
     var Inspector = require("inspector");
 
-    var frame = $("#frm");
-    var go = $("#go");
-    var inspect_start = false;
+
     var loaded = false;
+    var active = false;
     var inspector;
 
-    var global_scope = angular.element(document).scope();
 
-
-    go.on("click",function(){
-        if(inspector && loaded){
-            inspect_start = !inspect_start;
-            inspector.active(inspect_start);
+    $("#go").on("click",function(){
+        if(!loaded){
+            active = true;
+            $(this).val("载好就能用了");
+        }else{
+            inspector.toggleActive();
         }
     });
 
-
-    frame.on("load",function(){
+    /**
+     * 页面加载完毕后
+     */
+    $("#frm").on("load",function(){
         loaded = true;
-        var win = frame.get(0).contentWindow;
+        var win = $(this).get(0).contentWindow;
         var doc = win.document;
         var identifier = new Identifier(doc);
+
 
         /**
          * 元素检查器
          * @type {Inspector}
          */
         inspector = new Inspector({
+            toggle:$("#go"),
+            active:active,
             win:win,
             doc:doc
         });
 
-        inspector.on("pick",function(elem){
-            var selector = identifier.identify(elem,{
-                doc:doc,
+        /**
+         * 选定元素
+         */
+        inspector.on("pick",function(e){
+            var selector = identifier.identify(e.target,{
                 mode:"single"
             });
-            var scope = angular.element($(".nav")).scope();
-            scope.add({a:selector});
+            edit_scope.init({
+                selector:selector,
+                parent:""
+            });
+            edit_scope.pop();
+            inspector.setActive(false);
+            $("#edit_pane").find("#ga-key").get(0).focus()
+            edit_scope.pos(e);
+            edit_scope.off("done");
+            edit_scope.on("done",function(){
+                console.log(this);
+                inspector.setActive(true);
+                pane_scope.add({
+                    a:this.key
+                });
+            });
         });
     });
 
@@ -49,9 +69,20 @@ define(function(require,exports,module){
      * The Angular App
      * @type {[type]}
      */
-    var RulesController = require("rules-controller");
     var app = angular.module("app",[]);
-    app.controller('Rules', RulesController);
+    app.controller('Rules', require("rules-controller"));
+    app.controller('EditPanel', require("editpanel"));
     angular.bootstrap(document,['app']);
+
+
+    var pane_scope = angular.element($("#pane")).scope();
+    var edit_scope = angular.element($("#edit_pane")).scope();
+    
+    /**
+     * Rules in Window
+     */
+    window.rules.forEach(function(rule){
+        pane_scope.add(rule)
+    });
 
 });

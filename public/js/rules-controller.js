@@ -1,21 +1,32 @@
 define(function(require,exports,module){
 
+    var Events = require("event");
+
     var Rules = function($scope){
-        this.scope = $scope;
-        var rules = $scope.rules = window.rules;
-        $scope.on = true;
-        
+        Events.mixin($scope);
+        $scope.open = true;
+        $scope.rules = [];
+
+        function apply(){
+            if(!$scope.$$phase){
+                $scope.$apply();
+            }
+        }
+
         $scope.add = function(data){
-            rules.push(data);
-            $scope.$apply();
+            if($scope.rules.indexOf(data) == -1){
+                $scope.rules.push(data);
+                // ref: http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
+                apply();
+            }
         }
 
         $scope.remove = function(){
-            rules.splice(this.$index,1);
+            $scope.rules.splice(this.$index,1);
         }
 
         $scope.toggle = function(){
-            this.on = !this.on;
+            this.open = !this.open;
         }
     }
 

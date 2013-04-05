@@ -17,21 +17,40 @@ define(function(require,exports,module){
             color:"rgb(161, 209, 228)"
         });
 
+        this._active = opt.active || false;
+        this.toggle = opt.toggle;
+        this.showToggle();
+        
         $(doc.body).on("mouseover",function(e){
             if(self._active){
-                dyer.dyne(e.target,doc);
+                dyer.dye(e.target,doc);
             }
         }).on("mouseout",function(){
-            dyer.clear();
+            if(self._active){
+                dyer.clear();
+            }
         }).on("click",function(e){
-            self.fire("pick",e.target);
+            e.preventDefault()
+            if(self._active){
+                self.fire("pick",e);
+            }
         });
     }
 
     Event.mixin(Inspector);
 
-    Inspector.prototype.active = function(active){
-        this._active = active;
+    Inspector.prototype.setActive = function(active){
+        this._active = active
+    }
+
+
+    Inspector.prototype.toggleActive = function(){
+        this._active = !this._active;
+        this.showToggle();
+    }
+
+    Inspector.prototype.showToggle = function(){
+        this.toggle.val(this._active?"好了":"添加");
     }
 
     module.exports = Inspector;

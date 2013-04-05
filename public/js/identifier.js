@@ -5,6 +5,9 @@ define(function(require,exports,module){
 
     function Identifier(doc){
         this.doc = doc;
+        if(!Identifier.instance){
+            Identifier.instance = this;
+        }
     }
 
 
@@ -18,7 +21,66 @@ define(function(require,exports,module){
 
 
     Identifier.prototype.identifyMulti = function(elem){
+        var parent = elem;
+        var self = this;
+        var body = this.doc.body;
+        var results = [];
+        var selectors = null;
+        function exists(elems_to_match){
+            return results.some(function(result){
+                var elems = result.elems;
+                var l = Math.max(elems.length,elems_to_match.length);
+                for(var i = 0;i<l;i++){
+                    if(elems[i] != elems_to_match[i]){
+                        return false;
+                    }
+                };
+                return true;
+            });
+        }
 
+        function possible_selectors(elem){
+            var selectors;
+            if(elem.attr("class")){
+                selectors = elem.attr("class").split(/\s/).map(function(cls){
+                    return "."+cls;
+                });
+            }else{
+                selectors = [elem.get(0).tagName.toLowerCase()];
+            }
+            return selectors;
+        }
+
+        function mix_selectors(arr1,arr2){
+            var results = [];
+            arr1.forEach(function(s1){
+                arr2.forEach(function(s2){
+                    results.push([s1,s2].join(" "))
+                });
+            });
+            return results;
+        }
+
+        while(parent.get(0)!=body){
+            parent = elem.parent();
+            
+            selectors = selectors || possible_selectors(elem);
+
+            selectors.forEach(function(selector){
+                var elems = parent.find(selector)
+                if(elems.length > 1 && !exists(elems)){
+                    results.push({
+                        selector:selector,
+                        parent:self.identifySingle(parent),
+                        elems:elems
+                    });
+                }
+            });
+
+            selectors = mix_selectors(possible_selectors(parent),selectors);
+            elem = parent;
+        }
+        return results;
     }
 
     Identifier.prototype.traverseParent = function(elem,selector){
@@ -44,13 +106,13 @@ define(function(require,exports,module){
         }
 
         if(!this.onlyOne(selector)){
-            selector = selector + ":nth-child(" + ($(selector,this.doc).index(elem)+1) + ")";
+            selector = selector + ":nth-child(" + ($(selector,this.doc).parent().children().index(elem)+1) + ")";
         }
         return selector;
     }
 
     Identifier.prototype.identify = function(elem,opt){
-        elem = $(elem);
+        elem = $(elem,this.doc);
         if(opt.mode=="single"){
             return this.identifySingle(elem);
         }else if(opt.mode == "multi"){

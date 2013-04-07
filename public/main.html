@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/public/js/angular.js"></script>
+    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
+
+    <style>
+    .toolbar{
+        height:35px;
+        background-color: #333;
+    }
+    #frm{
+        height:500px;
+        width: 1000px;
+    }
+
+    </style>
+    
+</head>
+<body>
+    <div class="toolbar">
+        <input type="button" value="添加" id="go">
+    </div>
+    <div class="mainpage">
+        <style>
+            #pane{
+                position:fixed;
+                display: table;
+                top:0;
+                right: 0;
+                z-index: 1010;
+                padding: 1px;
+                background-color: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 6px 0 0 6px;
+                height:100%;
+            }
+            #pane .toggle{
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            #pane .toggle i{
+                background-image: url("/public/img/glyphicons-halflings.png");
+                background-position: -432px -72px;
+                width: 14px;
+                height: 14px;
+                display: inline-block;
+            }
+
+            #pane .main{
+                display: table-cell;
+                width:180px;
+            }
+            
+            #pane .nav-wrap{
+                overflow: auto;
+                height:100%;
+            }
+
+            #pane .nav{
+                width:180px;
+            }
+
+            #pane .nav li:after{
+                clear:both;
+                display: block;
+                content: "\20"
+            }
+            #pane .nav .remove{
+                float: right;
+            }
+        </style>
+        </style>
+        <div id="pane" ng-controller="Rules">
+            <a class="toggle" ng-click="toggle()"><i></i></a>
+            <div class="main" ng-show="open">
+                <div class="nav-wrap">
+                <ul class="nav nav-list">
+                <li ng-repeat="rule in rules">
+                    <div class="title">{{rule.a}}<a class="remove" ng-click="remove()">x</a>
+                    </div>
+                </li>
+                </ul>    
+                </div>
+            </div>
+        </div>
+        <iframe id="frm" src="shop.html" frameborder="0"></iframe>
+    </div>
+
+    <style>
+        .editpanel{
+            width:310px;
+            top:20px;
+            display: none;
+        }
+
+        .editpanel .control-label{
+            width:60px;
+        }
+
+        .editpanel .controls{
+            margin-left:70px;
+        }
+    </style>
+
+    <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px">
+        <div class="arrow"></div>
+        <h3 class="popover-title">{{type}} GA</h3>
+        <div class="popover-content">
+            <form class="form-horizontal" ng-submit="ok()">
+                <div class="control-group">
+                    <label for="ga-key" class="control-label">GA key：</label>
+                    <div class="controls">
+                        <input type="text" id="ga-key" placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">事件：</label>
+                    <div class="controls">
+                        <label for="action-click" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="click" id="action-click" name="ga-action" />click</label>
+                        <label for="action-hover" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="hover" id="action-hover" name="ga-action" />hover</label>
+                    </div>
+                </div> 
+            
+                <div class="control-group">
+                    <label class="control-label">多个：</label>
+                    <div class="controls">
+                        <label class="checkbox">
+                          <input type="checkbox" ng-model="multi" ng-change="changemulti()">
+                        </label>
+                    </div>
+                </div> 
+                <div class="pagination pagination-small" ng-show="multi && cases.length">
+                  <ul>
+                    <li ng-repeat="kase in cases" ng-class="{active:kase.selected}"><a href="javascript:;" ng-click="pickmulti()" ng-mouseenter="dye()">{{$index+1}}</a></li>
+                  </ul>
+                </div>
+                <input type="text" disabled ng-model="selector">
+                <input type="text" disabled ng-model="parent">
+
+                <button type="submit" class="btn" ng-click="done()">Submit</button>
+                <button type="close" class="btn" ng-click="close()">Cancel</button>
+            </form>
+        </div>
+      </div>
+
+    <script>
+    var rules = [
+            {a:1,b:2},
+            {a:3,b:4}
+        ];
+    </script>
+    <script src="/public/js/sea.js" data-main="app"></script>
+
+</body>
+</html>

@@ -1,4 +1,3 @@
-<!doctype html>
 <html ng-app>
 <head>
     <title>Conductor</title>
@@ -29,7 +28,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/page"+page.pageKey,page)
+            $http.post("/api/page/"+page.pageKey,page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {

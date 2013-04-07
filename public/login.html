@@ -1,4 +1,3 @@
-<!doctype html>
 <html ng-app>
 <head>
     <title>登录</title>
@@ -8,12 +7,12 @@
     function AuthController ($scope,$http,$location) {
         $scope.valid=true;
         $scope.login=function(username,password){                
-            $http.post("/xi-animation/user/login", {username:$scope.username,password:$scope.password})
+            $http.post("/api/user/login", {username:$scope.username,password:$scope.password})
             .success(function(data) {
                 if(data.error){
                     $scope.valid=false;
                 }else{
-                    window.location.href='/xi-animation';
+                    window.location.href='/';
                 }
             }).error(function(data) {
                 alert("server error");
@@ -27,7 +26,7 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="#">禧动漫管理后台</a>
+                    <a class="brand" href="#">Conductor</a>
                 </div>
             </div>
         </div>

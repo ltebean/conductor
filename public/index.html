@@ -7,10 +7,9 @@
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-    function Controller ($scope,$http) {
-        
+    function Controller ($scope,$http) { 
         var refresh=function(){
-            $http.get("/page/")
+            $http.get("/api/page")
             .success(function(data) {
                 $scope.pages=data;
             }).error(function(data) {
@@ -21,7 +20,7 @@
         refresh();
 
         $scope.createPage=function(page){
-            $http.post("/page",page)
+            $http.post("/api/page",page)
             .success(function(data) {
                 refresh()
             }).error(function(data) {
@@ -30,7 +29,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/page/"+page.pageKey,page)
+            $http.post("/api/page"+page.pageKey,page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {
@@ -40,6 +39,15 @@
 
         $scope.showPageToUpdate=function(page){
             $scope.pageToUpdate=page;
+        }
+
+         $scope.logout=function(username,password){                
+            $http.post("/api/user/logout")
+            .success(function(data) {
+                window.location.href='/';
+            }).error(function(data) {
+                alert("server error");
+            });
         }
     }
     </script>
@@ -51,88 +59,87 @@
                 <div class="container">
                     <a class="brand" href="#">Conductor</a>
                     <p class="navbar-text pull-right">
-                       <a class="navbar-link" ng-click="logout()">登出</a>
-                   </p>
-               </div>
-           </div>
-       </div>
+                        <a class="navbar-link" ng-click="logout()">退出</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <table class="table  table-hove">
+                <caption>配置列表</caption>
+                <thead>
+                    <tr>
+                        <th>pageKey</th>
+                        <th>样例页面</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="page in pages">
+                        <td class="span2">{{page.pageKey}}</td>
+                        <td class="span5">{{page.url}}</td>
+                        <td class="span2">
+                            <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
+                            <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <form class="form-inline">
+                <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+            </form>
+        </div>
+        
+        <div id="updateDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="myModalLabel">修改</h3>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="input01">pageKey</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToUpdate.pageKey" class="input-xlarge">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">页面URL</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToUpdate.url" class="input-xlarge">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
+            </div>
+        </div>
 
-       <div class="container">
-        <table class="table table-striped table-bordered">
-            <caption>配置列表</caption>
-            <thead>
-                <tr>
-                    <th>pageKey</th>
-                    <th>样例页面</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="page in pages">
-                    <td class="span2">{{page.pageKey}}</td>
-                    <td class="span5">{{page.url}}</td>
-                    <td class="span2">
-                        <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
-                        <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="container">
-        <form class="form-inline">
-            <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
-        </form>
-    </div>
-    <div id="updateDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">修改</h3>
-      </div>
-      <div class="modal-body form-horizontal">
-        <div class="control-group">
-              <label class="control-label" for="input01">pageKey</label>
-              <div class="controls">
-                <input type="text" ng-model="pageToUpdate.pageKey" class="input-xlarge">
+        <div id="newDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">新建</h3>
             </div>
-        </div>
-         <div class="control-group">
-              <label class="control-label" for="input01">页面URL</label>
-              <div class="controls">
-                <input type="text" ng-model="pageToUpdate.url" class="input-xlarge">
+            <div class="modal-body form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="input01">pageKey</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToCreate.pageKey" class="input-xlarge">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">页面URL</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToCreate.url" class="input-xlarge">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
-  </div>
-</div>
-
- <div id="newDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">新建</h3>
-      </div>
-      <div class="modal-body form-horizontal">
-          <div class="control-group">
-              <label class="control-label" for="input01">pageKey</label>
-              <div class="controls">
-                <input type="text" ng-model="pageToCreate.pageKey" class="input-xlarge">
-            </div>
-        </div>
-         <div class="control-group">
-              <label class="control-label" for="input01">页面URL</label>
-              <div class="controls">
-                <input type="text" ng-model="pageToCreate.url" class="input-xlarge">
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
-  </div>
-</div>
-</div>
 </body>
 </html>

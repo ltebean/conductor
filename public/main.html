@@ -41,6 +41,8 @@
             #pane .toggle{
                 display: table-cell;
                 vertical-align: middle;
+                background-color: #eee;
+                border-radius: 3px 0 0 3px;
             }
 
             #pane .toggle i{
@@ -65,30 +67,45 @@
                 width:180px;
             }
 
+            #pane .nav li{
+                padding:5px 0 0 0;
+            }
+
             #pane .nav li:after{
                 clear:both;
                 display: block;
                 content: "\20"
             }
+
+            #pane .nav i{
+                width: 12px;
+                height: 12px;
+                display: inline-block;
+                margin-right: 5px;
+            }
+
             #pane .nav .remove{
                 float: right;
             }
         </style>
         </style>
         <div id="pane" ng-controller="Rules">
-            <a class="toggle" ng-click="toggle()"><i></i></a>
+            <!-- <a class="toggle" ng-click="toggle()"><i></i></a> -->
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
                 <ul class="nav nav-list">
                 <li ng-repeat="rule in rules">
-                    <div class="title">{{rule.a}}<a class="remove" ng-click="remove()">x</a>
+                    <div class="title">
+                        <i style="background-color:{{rule.color}}"></i>
+                        <a href="javascript:;" ng-click="edit()">{{rule.key}}</a>
+                        <a class="remove" ng-click="remove()">x</a>
                     </div>
                 </li>
                 </ul>    
                 </div>
             </div>
         </div>
-        <iframe id="frm" src="shop.html" frameborder="0"></iframe>
+        <iframe id="frm" src="testpage.html" frameborder="0"></iframe>
     </div>
 
     <style>
@@ -113,9 +130,9 @@
         <div class="popover-content">
             <form class="form-horizontal" ng-submit="ok()">
                 <div class="control-group">
-                    <label for="ga-key" class="control-label">GA key：</label>
+                    <label for="ga-key" class="control-label" >GA key：</label>
                     <div class="controls">
-                        <input type="text" id="ga-key" placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
+                        <input type="text" id="ga-key" name="key" required placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
                     </div>
                 </div>
                 
@@ -136,9 +153,12 @@
                     </div>
                 </div> 
                 <div class="pagination pagination-small" ng-show="multi && cases.length">
-                  <ul>
-                    <li ng-repeat="kase in cases" ng-class="{active:kase.selected}"><a href="javascript:;" ng-click="pickmulti()" ng-mouseenter="dye()">{{$index+1}}</a></li>
-                  </ul>
+                    <label class="control-label">组：</label>
+                    <div class="controls">
+                      <ul>
+                        <li ng-repeat="kase in cases" ng-class="{active:kase.selected}"><a href="javascript:;" ng-click="pickmulti()" ng-mouseenter="dye()">{{$index+1}}</a></li>
+                      </ul>
+                  </div>
                 </div>
                 <input type="text" disabled ng-model="selector">
                 <input type="text" disabled ng-model="parent">
@@ -151,8 +171,8 @@
 
     <script>
     var rules = [
-            {a:1,b:2},
-            {a:3,b:4}
+            {key:1,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(3)",parent:"body"},
+            {key:3,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(1)",parent:"body"}
         ];
     </script>
     <script src="/public/js/sea.js" data-main="app"></script>

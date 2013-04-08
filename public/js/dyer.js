@@ -3,6 +3,7 @@
  */
 define(function(require,exports,module){
 
+
     /**
      * 构造器
      * @param {Object} opt {context:HTMLDocument,color:String}
@@ -11,7 +12,9 @@ define(function(require,exports,module){
         this.doc = opt.doc || document;
         this.color = opt.color;
         this.films = [];
-        Dyer.activeInstance = this;
+        if(opt.active == true){
+            Dyer.activeInstance = this;
+        }
     }
 
     /**
@@ -36,6 +39,10 @@ define(function(require,exports,module){
         });
         this.films.push(film);
         film.appendTo(this.doc.body);
+    }
+
+    Dyer.prototype.getDoc = function(){
+        return this.doc;
     }
 
     Dyer.prototype.clear = function(){

@@ -7,6 +7,10 @@ define(function(require,exports,module){
     }
 
     function off(name){
+        if(!name){
+            delete this.events;
+        }
+        
         if(this.events && this.events[name]){
             delete this.events[name];
         }

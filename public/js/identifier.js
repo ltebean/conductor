@@ -84,9 +84,13 @@ define(function(require,exports,module){
     }
 
     Identifier.prototype.traverseParent = function(elem,selector){
-        var body = $('body');
-        var parent = elem == body ? body : elem.parent();
-        return [this.identifySingle(parent),selector].join(" ");
+        var body = this.doc.body;
+        var parent;
+        if(elem.parent().get(0) == body){
+            return selector;
+        }else{
+            return [this.identifySingle(elem.parent()),selector].join(" ");
+        }
     }
 
     Identifier.prototype.identifySingle = function(elem){

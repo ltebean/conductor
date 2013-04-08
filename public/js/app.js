@@ -18,6 +18,8 @@ define(function(require,exports,module){
         }
     });
 
+    $("#frm").attr("src","testpage.html");
+
     /**
      * 页面加载完毕后
      */
@@ -48,21 +50,32 @@ define(function(require,exports,module){
             });
             edit_scope.init({
                 selector:selector,
-                parent:""
+                parent:"body"
             });
             edit_scope.pop();
             inspector.setActive(false);
-            $("#edit_pane").find("#ga-key").get(0).focus()
-            edit_scope.pos(e);
-            edit_scope.off("done");
-            edit_scope.on("done",function(){
-                console.log(this);
+            edit_scope.pos({
+                x:e.clientX + 50,
+                y:e.clientY - 25
+            });
+            edit_scope.off();
+            edit_scope.on("close",function(){
                 inspector.setActive(true);
-                pane_scope.add({
-                    a:this.key
+            })
+            edit_scope.on("done",function(){
+                rules_scope.add({
+                    key:this.key,
+                    selector:this.selector,
+                    parent:this.parent,
+                    multi:this.multi,
+                    action:this.action,
+                    cases:this.cases
                 });
             });
         });
+
+        rules_scope.doc = doc;
+        rules_scope.dyeall();
     });
 
     /**
@@ -75,14 +88,37 @@ define(function(require,exports,module){
     angular.bootstrap(document,['app']);
 
 
-    var pane_scope = angular.element($("#pane")).scope();
+    var rules_scope = angular.element($("#pane")).scope();
     var edit_scope = angular.element($("#edit_pane")).scope();
     
+    /**
+     * Edit One
+     */
+    rules_scope.on("edit",function(row){
+        row.active = true;
+        edit_scope.init(row.rule);
+        edit_scope.pop();
+        console.log(row);
+        edit_scope.pos({
+            x:700,
+            y:row.$index * 20
+        });
+        edit_scope.off();
+        edit_scope.on("close",function(){
+            inspector.setActive(true);
+            row.active = false;
+        });
+        edit_scope.on("done",function(){
+            rules_scope.updateRule(row,this);
+        });
+    })
+
     /**
      * Rules in Window
      */
     window.rules.forEach(function(rule){
-        pane_scope.add(rule)
+        // edit_scope.init(rule);
+        rules_scope.add(rule);
     });
 
 });

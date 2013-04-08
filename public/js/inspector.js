@@ -14,7 +14,8 @@ define(function(require,exports,module){
         
         var dyer = this.dyer =  new Dyer({
             doc:doc,
-            color:"rgb(161, 209, 228)"
+            color:"rgb(161, 209, 228)",
+            active:true
         });
 
         this._active = opt.active || false;

@@ -16,14 +16,14 @@ app.configure(function () {
 });
 
 // ga config api
-app.get('/api/page', config.find); 
-app.get('/api/page/:pageKey', config.load); 
-app.post('/api/page', config.create); 
-app.post('/api/page/:pageKey', config.update); 
+app.get('/ajax/ga/page', config.find); 
+app.get('/ajax/ga/page/:pageKey', config.load); 
+app.post('/ajax/ga/page', config.create); 
+app.post('/ajax/ga/page/:pageKey', config.update); 
 
 //auth api
-app.post('/api/user/login', auth.login); 
-app.post('/api/user/logout', auth.logout); 
+app.post('/ajax/ga/user/login', auth.login); 
+app.post('/ajax/ga/user/logout', auth.logout); 
 
 //static pages
 app.get('/', auth.checkAuth, function(req,res){
@@ -32,7 +32,9 @@ app.get('/', auth.checkAuth, function(req,res){
 app.get('/login', function(req,res){
 	res.sendfile(__dirname+'/public/login.html');
 });
-
+app.get('/edit/:id',function(req,res){
+    res.sendfile(__dirname+'/public/edit.html'); 
+});
 
 var server=http.createServer(app);
 server.listen(3000); 

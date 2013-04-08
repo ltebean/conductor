@@ -90,7 +90,8 @@
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
                 <div class="tools">
-                    <input type="button" value="添加" id="go" class="btn btn-small" data-placement="right" data-original-title='press "a" to toggle'>
+                    <input type="button" value="添加" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle'>
+                    <input type="button" value="保存" ng-click="save()" class="btn btn-small">
                 </div>
                 <ul class="nav nav-list">
                 <li ng-repeat="rule in rules">
@@ -104,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <iframe id="frm" src="testpage.html" frameborder="0"></iframe>
+        <iframe id="frm" src="" frameborder="0"></iframe>
     </div>
 
     <style>
@@ -180,14 +181,6 @@
             </form>
         </div>
       </div>
-
-    <script>
-    var rules = [
-        {key:1,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(3)",parent:"body"},
-        {key:3,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(1)",parent:"body"}
-    ];
-    var pageurl = "testpage.html";
-    </script>
     <script src="/public/js/sea.js" data-main="app"></script>
 
 </body>

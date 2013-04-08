@@ -32,6 +32,13 @@ define(function(require,exports,module){
             }
         }
 
+        $scope.save = function(){
+            var data = $scope.rules.map(function(rule){
+                return rule.getData();
+            });
+            $scope.fire("save",data);
+        }
+
         $scope.edit = function($event){
             $scope.fire("edit",this);
         }

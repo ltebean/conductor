@@ -28,7 +28,6 @@ define(function(require,exports,module){
     }
 
     Rule.prototype.update = function(data){
-        this.data = data;
         this.key = data.key;
         this.action = data.action;
         this.multi = data.multi;
@@ -36,6 +35,16 @@ define(function(require,exports,module){
         this.selector = data.selector;
         this.cases = data.cases;
         this.dyeSelf();
+    }
+
+    Rule.prototype.getData = function(){
+        return {
+            key:this.key,
+            action:this.action,
+            multi:this.multi,
+            parent:this.parent,
+            selector:this.selector
+        }
     }
 
     Rule.prototype.dyeSelf = function(){

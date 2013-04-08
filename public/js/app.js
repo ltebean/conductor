@@ -2,7 +2,8 @@ define(function(require,exports,module){
 
     var Identifier = require("identifier");
     var Inspector = require("inspector");
-
+    var PageKey = location.href.match(/\/edit\/(\d+)/)[1];
+    var PageUrl = null;
 
     var loaded = false;
     var active = true;
@@ -21,15 +22,13 @@ define(function(require,exports,module){
     $("#go").tooltip();
     $("#go").on("click",toggle);
     $(document).on("keyup",function(e){
-        if(e.keyCode == 65){
+        if(e.keyCode == 32){
             toggle()
         }
         if(e.keyCode == 27){
             edit_scope.close();
         }
     });
-
-    $("#frm").attr("src",window.pageurl);
 
     /**
      * 页面加载完毕后
@@ -123,14 +122,30 @@ define(function(require,exports,module){
         edit_scope.on("done",function(){
             rules_scope.updateRule(row,this);
         });
-    })
+    });
+
+    rules_scope.on("save",function(data){
+        $.post("/ajax/ga/page/"+PageKey,{
+            config:JSON.stringify(data),
+            url:PageUrl
+        });
+    });
 
     /**
      * Rules in Window
      */
-    window.rules.forEach(function(rule){
-        // edit_scope.init(rule);
-        rules_scope.add(rule);
+    $.get("/ajax/ga/page/"+PageKey,function(data){
+        var config = data.config;
+        if(config){
+            try{
+                config = JSON.parse(config);
+                config.forEach(function(rule){
+                    rules_scope.add(rule);
+                });
+            }catch(e){}
+        }
+        PageUrl = data.url;
+        $("#frm").attr("src",data.url);
     });
 
 });

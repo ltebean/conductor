@@ -76,7 +76,7 @@ define(function(require,exports,module){
         $scope.init = function(data){
             data = data || {};
             var rule;
-            $scope.type = "Edit";
+            $scope.type = data.type || "Edit";
             $scope.multi = data.multi || false;
             $scope.display = "none";
             $scope.left = 0;
@@ -104,6 +104,7 @@ define(function(require,exports,module){
         $scope.pop = function(){
             $scope.display = "block";
             apply();
+            $($element[0]).find("#ga-key").get(0).focus();
             
         }
 

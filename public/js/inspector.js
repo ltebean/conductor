@@ -47,11 +47,14 @@ define(function(require,exports,module){
 
     Inspector.prototype.toggleActive = function(){
         this._active = !this._active;
+        if(!this._active){
+            this.dyer.clear();
+        }
         this.showToggle();
     }
 
     Inspector.prototype.showToggle = function(){
-        this.toggle.val(this._active?"好了":"添加");
+        this.toggle.val(this._active?"搁置":"添加");
     }
 
     module.exports = Inspector;

@@ -5,25 +5,18 @@
     <title>Document</title>
     <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="/public/js/angular.js"></script>
-    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
-
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/bootstrap-tooltip.js"></script>
     <style>
-    .toolbar{
-        height:35px;
-        background-color: #333;
-    }
+    
     #frm{
         height:500px;
         width: 1000px;
     }
-
     </style>
     
 </head>
 <body>
-    <div class="toolbar">
-        <input type="button" value="添加" id="go">
-    </div>
     <div class="mainpage">
         <style>
             #pane{
@@ -35,7 +28,6 @@
                 padding: 1px;
                 background-color: #ffffff;
                 border: 1px solid rgba(0, 0, 0, 0.2);
-                border-radius: 6px 0 0 6px;
                 height:100%;
             }
             #pane .toggle{
@@ -55,7 +47,11 @@
 
             #pane .main{
                 display: table-cell;
-                width:180px;
+                width:240px;
+            }
+
+            #pane .tools{
+                padding:10px;
             }
             
             #pane .nav-wrap{
@@ -64,11 +60,12 @@
             }
 
             #pane .nav{
-                width:180px;
+                padding:0;
             }
-
+            
             #pane .nav li{
-                padding:5px 0 0 0;
+                padding:5px 10px;
+                border-bottom:1px dashed #ccc;
             }
 
             #pane .nav li:after{
@@ -88,16 +85,18 @@
                 float: right;
             }
         </style>
-        </style>
         <div id="pane" ng-controller="Rules">
             <!-- <a class="toggle" ng-click="toggle()"><i></i></a> -->
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
+                <div class="tools">
+                    <input type="button" value="添加" id="go" class="btn btn-small" data-placement="right" data-original-title='press "a" to toggle'>
+                </div>
                 <ul class="nav nav-list">
                 <li ng-repeat="rule in rules">
-                    <div class="title">
+                    <div class="title" ng-click="edit()">
                         <i style="background-color:{{rule.color}}"></i>
-                        <a href="javascript:;" ng-click="edit()">{{rule.key}}</a>
+                        <a href="javascript:;">{{rule.key}}</a>
                         <a class="remove" ng-click="remove()">x</a>
                     </div>
                 </li>
@@ -132,7 +131,7 @@
                 <div class="control-group">
                     <label for="ga-key" class="control-label" >GA key：</label>
                     <div class="controls">
-                        <input type="text" id="ga-key" name="key" required placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
+                        <input type="text" id="ga-key" placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
                     </div>
                 </div>
                 
@@ -152,7 +151,7 @@
                         </label>
                     </div>
                 </div> 
-                <div class="pagination pagination-small" ng-show="multi && cases.length">
+                <div class="pagination pagination-small control-group" ng-show="multi && cases.length">
                     <label class="control-label">组：</label>
                     <div class="controls">
                       <ul>
@@ -160,20 +159,34 @@
                       </ul>
                   </div>
                 </div>
-                <input type="text" disabled ng-model="selector">
-                <input type="text" disabled ng-model="parent">
 
-                <button type="submit" class="btn" ng-click="done()">Submit</button>
-                <button type="close" class="btn" ng-click="close()">Cancel</button>
+                <div class="control-group">
+                    <div class="control-label">选择器：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="selector">
+                    </div>
+                </div>
+                
+
+                <div class="control-group">
+                    <div class="control-label">父节点：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="parent">
+                    </div>
+                </div>
+
+                <input type="submit" class="btn" ng-click="done()" value="Submit" />
+                <a class="btn" ng-click="close()">Cancel</a>
             </form>
         </div>
       </div>
 
     <script>
     var rules = [
-            {key:1,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(3)",parent:"body"},
-            {key:3,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(1)",parent:"body"}
-        ];
+        {key:1,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(3)",parent:"body"},
+        {key:3,multi:false,selector:".a:nth-child(2) .b:nth-child(1) .c:nth-child(1) .child:nth-child(1)",parent:"body"}
+    ];
+    var pageurl = "testpage.html";
     </script>
     <script src="/public/js/sea.js" data-main="app"></script>
 

@@ -14,7 +14,7 @@ define(function(require,exports,module){
     }
 
     Rule.prototype.createDyer = function(doc){
-        if(!this.dyer){
+        if(!this.dyer && doc){
             this.dyer = new Dyer({
                 doc:doc,
                 color:this.color,

@@ -5,20 +5,29 @@ define(function(require,exports,module){
 
 
     var loaded = false;
-    var active = false;
+    var active = true;
     var inspector;
 
 
-    $("#go").on("click",function(){
+
+    function toggle(){
         if(!loaded){
             active = true;
-            $(this).val("载好就能用了");
+            $(this).val("waiting for iframe loaded");
         }else{
             inspector.toggleActive();
         }
+    }
+    $("#go").tooltip();
+    $("#go").on("click",toggle);
+    $(document).on("keyup",function(e){
+        if(e.keyCode == 65){
+            toggle()
+        }
+        console.log(e.keyCode);
     });
 
-    $("#frm").attr("src","testpage.html");
+    $("#frm").attr("src",window.pageurl);
 
     /**
      * 页面加载完毕后
@@ -49,6 +58,7 @@ define(function(require,exports,module){
                 mode:"single"
             });
             edit_scope.init({
+                type:"Add",
                 selector:selector,
                 parent:"body"
             });
@@ -64,7 +74,7 @@ define(function(require,exports,module){
             })
             edit_scope.on("done",function(){
                 rules_scope.add({
-                    key:this.key,
+                    key:this.key || "hey_name_me",
                     selector:this.selector,
                     parent:this.parent,
                     multi:this.multi,

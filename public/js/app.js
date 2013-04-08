@@ -24,7 +24,9 @@ define(function(require,exports,module){
         if(e.keyCode == 65){
             toggle()
         }
-        console.log(e.keyCode);
+        if(e.keyCode == 27){
+            edit_scope.close();
+        }
     });
 
     $("#frm").attr("src",window.pageurl);

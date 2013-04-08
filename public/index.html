@@ -9,7 +9,7 @@
     <script type="text/javascript">
     function Controller ($scope,$http) { 
         var refresh=function(){
-            $http.get("/api/page")
+            $http.get("/ajax/ga/page")
             .success(function(data) {
                 $scope.pages=data;
             }).error(function(data) {
@@ -20,7 +20,7 @@
         refresh();
 
         $scope.createPage=function(page){
-            $http.post("/api/page",page)
+            $http.post("/ajax/ga/page",page)
             .success(function(data) {
                 refresh()
             }).error(function(data) {
@@ -29,7 +29,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/page/"+page.pageKey,page)
+            $http.post("/ajax/ga/page/"+page.pageKey,page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {
@@ -41,13 +41,16 @@
             $scope.pageToUpdate=page;
         }
 
-         $scope.logout=function(username,password){                
-            $http.post("/api/user/logout")
+        $scope.logout=function(username,password){                
+            $http.post("/ajax/ga/user/logout")
             .success(function(data) {
                 window.location.href='/';
             }).error(function(data) {
                 alert("server error");
             });
+        }
+        $scope.viewPage=function(page){
+            window.open('/edit/'+page.pageKey);
         }
     }
     </script>

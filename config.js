@@ -27,7 +27,11 @@ exports.load=function(req, res){
 		},
 		function generateResponse(err, result){
 			if (err) throw err;
-			res.send(result);
+			if(req.query.callback){
+				res.jsonp(result);
+			}else{
+				res.send(result);
+			}
 		});
 }
 

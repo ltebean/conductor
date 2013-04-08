@@ -17,7 +17,7 @@ app.configure(function () {
 
 // ga config api
 app.get('/ajax/ga/page', config.find); 
-app.get('/ajax/ga/:pageKey', config.load); 
+app.get('/ajax/ga/page/:pageKey', config.load); 
 app.post('/ajax/ga/page', config.create); 
 app.post('/ajax/ga/page/:pageKey', config.update); 
 

@@ -17,12 +17,12 @@ app.configure(function () {
 });
 
 // ga config api
-app.get('/api/group/:groupName/page/:pageKey', pageConfig.load); 
+app.get('/api/page/:pageKey', pageConfig.load); 
 
 // ga config api for admin
 app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
-app.post('/api/group/:groupName/page',auth.checkAuth, pageConfig.create); 
-app.post('/api/group/:groupName/page/:pageKey',auth.checkAuth, pageConfig.update); 
+app.post('/api/page',auth.checkAuth, pageConfig.create); 
+app.post('/api/page/:pageKey',auth.checkAuth, pageConfig.update); 
 
 // group config api for admin
 app.get('/api/group/:groupName', auth.checkAuth, groupConfig.load); 

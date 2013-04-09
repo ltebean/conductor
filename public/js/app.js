@@ -151,7 +151,7 @@ define(function(require,exports,module){
     });
 
     rules_scope.on("save",function(data){
-        $.post("/api/page/"+PageKey,{
+        $.post("/api/page/"+PageKey+"/config",{
             config:JSON.stringify(data),
             url:PageUrl
         });

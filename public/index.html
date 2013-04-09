@@ -15,16 +15,18 @@
     <script type="text/javascript">
     function Controller ($scope,$http) { 
 
-        var refreshGroup=function(){
+        var refreshGroup=function(index){
             $http.get("/api/group")
             .success(function(data) {
                 $scope.groups=data;
-                if(data && data[data.length]){
-                    $scope.currentGroup=data[0].name;
-                }else{
-                    $scope.currentGroup='all';
+                if(data){
+                    if(index){
+                        $scope.currentGroup=data[index].name;
+                    }else{
+                        $scope.currentGroup=data[0].name;
+                    }
+                    refresh();
                 }
-                refresh();
             }).error(function(data) {
                 alert("server error");
             });
@@ -49,7 +51,7 @@
         $scope.createGroup=function(group){
             $http.post("/api/group",group)
             .success(function(data) {
-                refreshGroup();
+                refreshGroup($scope.groups.length);
             }).error(function(data) {
                 alert("server error");
             });
@@ -65,7 +67,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/page/"+page.pageKey,page)
+            $http.post("/api/page/"+page.pageKey+"/url",page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {

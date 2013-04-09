@@ -20,15 +20,17 @@ app.configure(function () {
 app.get('/api/page/:pageKey', pageConfig.load); 
 
 // ga config api for admin
-app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
 app.post('/api/page',auth.checkAuth, pageConfig.create); 
-app.post('/api/page/:pageKey',auth.checkAuth, pageConfig.update); 
+app.post('/api/page/:pageKey/url',auth.checkAuth, pageConfig.updateUrl); 
+app.post('/api/page/:pageKey/config',auth.checkAuth, pageConfig.updateConfig); 
+
 
 // group config api for admin
 app.get('/api/group/:groupName', auth.checkAuth, groupConfig.load); 
 app.get('/api/group',auth.checkAuth, groupConfig.find); 
 app.post('/api/group',auth.checkAuth, groupConfig.create); 
 app.post('/api/group/:groupName',auth.checkAuth, groupConfig.update); 
+app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
 
 //auth api
 app.post('/api/user/login', auth.login); 

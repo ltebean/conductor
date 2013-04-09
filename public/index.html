@@ -96,7 +96,7 @@
     <div id="wrap">
         <div class="navbar">
             <div class="navbar-inner">
-                <div class="container">
+                <div class="navbar-conntent">
                     <a class="brand" href="#">Conductor</a>
                     <p class="navbar-text pull-right">
                         <a class="navbar-link" ng-click="logout()">退出</a>
@@ -105,16 +105,16 @@
             </div>
         </div>
         <div class="container row">
-            <div class="span2 bs-docs-sidebar" >
+            <div class="span2" >
                 <ul class="nav nav-tabs nav-stacked" >
-                    <li><a class="inactive" href="#">分组</a></li>
+                    <li class="active"><a href="#">分组</a></li>
                     <li ng-repeat="group in groups"><a ng-click="viewGroup(group)">{{group.name}}</a></li>
                 </ul>
                 <a class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
             </div>
-            <div class="span9">
-                <div class="container">
-                    <table class="table  table-hove">
+            <div class="span10">
+                <div class="">
+                    <table class="table table-hove">
                         <thead>
                             <tr>
                                 <th>pageKey</th>
@@ -124,9 +124,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="page in pages">
-                                <td class="span1">{{page.pageKey}}</td>
-                                <td class="span3">{{page.url}}</td>
-                                <td class="span2">
+                                <td>{{page.pageKey}}</td>
+                                <td>{{page.url}}</td>
+                                <td>
                                     <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
                                     <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
                                 </td>
@@ -134,7 +134,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="container">
+                <div class="">
                     <form class="form-inline">
                         <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
                     </form>

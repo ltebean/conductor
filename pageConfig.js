@@ -49,7 +49,7 @@ exports.create=function(req, res){
 		});	
 } 
 
-exports.update=function(req, res){ 
+exports.updateUrl=function(req, res){ 
 	Step(	
 		function getCollection(){
 			db.collection('pageConfig', this); 
@@ -57,8 +57,27 @@ exports.update=function(req, res){
 		function updateData(err,collection){
 			if (err) throw err;
 			collection.findAndModify(
-				{'pageKey':req.params.pageKey,'groupName':req.params.groupName},[],
-				{$set:{'url':req.body.url,'config':req.body.config}},
+				{'pageKey':req.params.pageKey},[],
+				{$set:{'url':req.body.url}},
+				{safe:true,new:true},
+				this);
+		},
+		function generateResponse(err, result){
+			if (err) throw err;
+			res.send(result);		
+		});	
+} 
+
+exports.updateConfig=function(req, res){ 
+	Step(	
+		function getCollection(){
+			db.collection('pageConfig', this); 
+		},
+		function updateData(err,collection){
+			if (err) throw err;
+			collection.findAndModify(
+				{'pageKey':req.params.pageKey},[],
+				{$set:{'config':req.body.config}},
 				{safe:true,new:true},
 				this);
 		},

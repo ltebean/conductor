@@ -2,7 +2,7 @@ define(function(require,exports,module){
 
     var Identifier = require("identifier");
     var Inspector = require("inspector");
-    var PageKey = location.href.match(/\/edit\/(\d+)/)[1];
+    var PageKey = location.href.match(/\/edit\/([\w-]+)/)[1];
     var PageUrl = null;
 
     var loaded = false;
@@ -151,7 +151,7 @@ define(function(require,exports,module){
     });
 
     rules_scope.on("save",function(data){
-        $.post("/api/page/"+PageKey,{
+        $.post("/api/page/"+PageKey+"/config",{
             config:JSON.stringify(data),
             url:PageUrl
         });
@@ -174,6 +174,5 @@ define(function(require,exports,module){
         PageUrl = data.url;
         $("#frm").attr("src","/proxy?url="+data.url);
     });
-    $("#frm").css("width",$(window).width()-244);
 
 });

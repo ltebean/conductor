@@ -8,7 +8,7 @@ exports.find=function(req, res){
 		},
 		function findResult(err,collection){
 			if (err) throw err;
-			collection.find({}).toArray(this);;
+			collection.find({'groupName':req.params.groupName}).toArray(this);;
 		},
 		function generateResponse(err, result){
 			if (err) throw err;
@@ -57,7 +57,7 @@ exports.update=function(req, res){
 		function updateData(err,collection){
 			if (err) throw err;
 			collection.findAndModify(
-				{'pageKey':req.params.pageKey},[],
+				{'pageKey':req.params.pageKey,'groupName':req.params.groupName},[],
 				{$set:{'url':req.body.url,'config':req.body.config}},
 				{safe:true,new:true},
 				this);

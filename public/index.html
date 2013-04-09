@@ -6,10 +6,32 @@
     <script src="/public/js/angular.js"></script>
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+    <style>
+      .container {
+        width: 1024px;
+        margin:auto;
+      }
+    </style>
     <script type="text/javascript">
     function Controller ($scope,$http) { 
+
+        var refreshGroup=function(){
+            $http.get("/api/group")
+            .success(function(data) {
+                $scope.groups=data;
+                if(data[0] && data[0].name){
+                    $scope.currentGroup=data[0].name;
+                }else{
+                    $scope.currentGroup='all';
+                }
+                refresh();
+            }).error(function(data) {
+                alert("server error");
+            });
+        }
+
         var refresh=function(){
-            $http.get("/ajax/ga/page")
+            $http.get("/api/group/"+$scope.currentGroup+"/page")
             .success(function(data) {
                 $scope.pages=data;
             }).error(function(data) {
@@ -17,10 +39,24 @@
             });
         }
 
-        refresh();
+        refreshGroup();
 
+        $scope.viewGroup=function(group){
+            $scope.currentGroup=group.name;
+            refresh();
+        }
+
+        $scope.createGroup=function(group){
+            $http.post("/api/group",group)
+            .success(function(data) {
+                refreshGroup();
+            }).error(function(data) {
+                alert("server error");
+            });
+        }
         $scope.createPage=function(page){
-            $http.post("/ajax/ga/page",page)
+            page.groupName=$scope.currentGroup;
+            $http.post("/api/group/"+$scope.currentGroup+"/page",page)
             .success(function(data) {
                 refresh()
             }).error(function(data) {
@@ -29,7 +65,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/ajax/ga/page/"+page.pageKey,page)
+            $http.post("/api/group/"+$scope.currentGroup+"/page/"+page.pageKey,page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {
@@ -42,13 +78,14 @@
         }
 
         $scope.logout=function(username,password){                
-            $http.post("/ajax/ga/user/logout")
+            $http.post("/api/user/logout")
             .success(function(data) {
                 window.location.href='/';
             }).error(function(data) {
                 alert("server error");
             });
         }
+        
         $scope.viewPage=function(page){
             window.open('/edit/'+page.pageKey);
         }
@@ -67,45 +104,50 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <table class="table  table-hove">
-                <caption>配置列表</caption>
-                <thead>
-                    <tr>
-                        <th>pageKey</th>
-                        <th>样例页面</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="page in pages">
-                        <td class="span2">{{page.pageKey}}</td>
-                        <td class="span5">{{page.url}}</td>
-                        <td class="span2">
-                            <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
-                            <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="container row">
+            <div class="span2 bs-docs-sidebar" >
+                <ul class="nav nav-tabs nav-stacked" >
+                    <li><a class="inactive" href="#">分组</a></li>
+                    <li ng-repeat="group in groups"><a ng-click="viewGroup(group)">{{group.name}}</a></li>
+                </ul>
+                <a class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
+            </div>
+            <div class="span9">
+                <div class="container">
+                    <table class="table  table-hove">
+                        <thead>
+                            <tr>
+                                <th>pageKey</th>
+                                <th>样例页面</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="page in pages">
+                                <td class="span1">{{page.pageKey}}</td>
+                                <td class="span3">{{page.url}}</td>
+                                <td class="span2">
+                                    <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
+                                    <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container">
+                    <form class="form-inline">
+                        <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="container">
-            <form class="form-inline">
-                <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
-            </form>
-        </div>
-        
+    </div>
+    <div id="modalDialog">
         <div id="updateDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="myModalLabel">修改</h3>
             </div>
             <div class="modal-body form-horizontal">
-                <div class="control-group">
-                    <label class="control-label" for="input01">pageKey</label>
-                    <div class="controls">
-                        <input type="text" ng-model="pageToUpdate.pageKey" class="input-xlarge">
-                    </div>
-                </div>
                 <div class="control-group">
                     <label class="control-label" for="input01">页面URL</label>
                     <div class="controls">
@@ -141,6 +183,25 @@
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
                 <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
+            </div>
+        </div>
+
+        <div id="newGroupDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">新建</h3>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="input01">名称</label>
+                    <div class="controls">
+                        <input type="text" ng-model="groupToCreate.name" class="input-xlarge">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createGroup(groupToCreate)">新建</button>
             </div>
         </div>
     </div>

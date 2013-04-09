@@ -23,7 +23,7 @@ exports.update=function(req, res){
 		function updateData(err,collection){
 			if (err) throw err;
 			collection.findAndModify(
-				{'name':req.params.name},[],
+				{'name':req.params.groupName},[],
 				{$set:{'name':req.body.name}},
 				{safe:true,new:true},
 				this);
@@ -56,7 +56,7 @@ exports.load=function(req, res){
 		},
 		function findResult(err,collection){
 			if (err) throw err;
-			collection.findOne({'name':req.params.name},this);
+			collection.findOne({'name':req.params.groupName},this);
 		},
 		function generateResponse(err, result){
 			if (err) throw err;

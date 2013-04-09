@@ -174,5 +174,6 @@ define(function(require,exports,module){
         PageUrl = data.url;
         $("#frm").attr("src","/proxy?url="+data.url);
     });
+    $("#frm").css("width",$(window).width()-244);
 
 });

@@ -54,7 +54,7 @@ define(function(require,exports,module){
     }
 
     Inspector.prototype.showToggle = function(){
-        this.toggle.val(this._active?"搁置":"添加");
+        this.toggle[this._active?"addClass":"removeClass"]("active");
     }
 
     module.exports = Inspector;

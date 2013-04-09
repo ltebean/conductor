@@ -2,11 +2,12 @@ define(function(require,exports,module){
     var Events = require("event");
     var Rule = require("rule");
 
-    var Rules = function($scope){
+    var Rules = function($scope,$element){
         Events.mixin($scope);
         $scope.open = true;
+        $scope.editpv = false;
         $scope.rules = [];
-
+        $scope.pv = "";
 
         function apply(){
             if(!$scope.$$phase){
@@ -21,6 +22,23 @@ define(function(require,exports,module){
             });
         }
 
+        $scope.editPvDone = function(){
+            $scope.editpv = false;
+            $scope.save();
+        }
+
+        $scope.editPv = function(){
+            $scope.editpv = true;
+            setTimeout(function(){
+                $($element).find("#pv").get(0).focus();
+            },10);
+        }
+
+        $scope.setPv = function(pv){
+            $scope.pv = pv;
+            apply();
+        }
+
         $scope.add = function(data){
             var rule = new Rule(data);
             rule.createDyer($scope.doc);
@@ -33,10 +51,13 @@ define(function(require,exports,module){
         }
 
         $scope.save = function(){
-            var data = $scope.rules.map(function(rule){
+            var rules = $scope.rules.map(function(rule){
                 return rule.getData();
             });
-            $scope.fire("save",data);
+            $scope.fire("save",{
+                rules:rules,
+                pv:$scope.pv
+            });
         }
 
         $scope.edit = function($event){
@@ -45,12 +66,14 @@ define(function(require,exports,module){
 
         $scope.updateRule = function(row,rule){
             row.rule.update(rule);
+            $scope.save();
         }
 
         $scope.remove = function(){
             var rule = $scope.rules[this.$index];
             rule.clear();
             $scope.rules.splice(this.$index,1);
+            $scope.save();
         }
 
         $scope.toggle = function(){

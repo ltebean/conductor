@@ -102,7 +102,34 @@
                         <a href="javascript:;" ng-click="editPv()" ng-show="!editpv">pv：{{pv}}</a>
                     </div>
                 </li>
-                <li ng-repeat="rule in rules">
+                <li>
+                    <div class="title">action click</div>
+                </li>
+                <li ng-repeat='rule in rules | filter:{action:"click"}'>
+                    <div class="title" ng-click="edit()">
+                        <i style="background-color:{{rule.color}}"></i>
+                        <a href="javascript:;">{{rule.key}}</a>
+                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="title">action hover</div>
+                </li>
+
+                <li ng-repeat='rule in rules | filter:{action:"hover"}'>
+                    <div class="title" ng-click="edit()">
+                        <i style="background-color:{{rule.color}}"></i>
+                        <a href="javascript:;">{{rule.key}}</a>
+                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="title">action show</div>
+                </li>
+
+                <li ng-repeat='rule in rules | filter:{action:"show"}'>
                     <div class="title" ng-click="edit()">
                         <i style="background-color:{{rule.color}}"></i>
                         <a href="javascript:;">{{rule.key}}</a>
@@ -148,7 +175,7 @@
                     <div class="controls">
                         <label for="action-click" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="click" id="action-click" name="ga-action" />click</label>
                         <label for="action-hover" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="hover" id="action-hover" name="ga-action" />hover</label>
-                        <label for="action-show" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="show" id="action-hover" name="ga-action" />show</label>
+                        <label for="action-show" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="show" id="action-show" name="ga-action" />show</label>
                     </div>
                 </div> 
             

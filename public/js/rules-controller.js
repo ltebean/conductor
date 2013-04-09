@@ -2,7 +2,7 @@ define(function(require,exports,module){
     var Events = require("event");
     var Rule = require("rule");
 
-    var Rules = function($scope,$element){
+    var Rules = function($scope,$element,$filter){
         Events.mixin($scope);
         $scope.open = true;
         $scope.editpv = false;

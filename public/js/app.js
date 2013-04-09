@@ -151,7 +151,7 @@ define(function(require,exports,module){
     });
 
     rules_scope.on("save",function(data){
-        $.post("/ajax/ga/page/"+PageKey,{
+        $.post("/api/page/"+PageKey,{
             config:JSON.stringify(data),
             url:PageUrl
         });
@@ -160,7 +160,7 @@ define(function(require,exports,module){
     /**
      * Rules in config
      */
-    $.get("/ajax/ga/page/"+PageKey,function(data){
+    $.get("/api/page/"+PageKey,function(data){
         var config = data.config;
         if(config){
             try{

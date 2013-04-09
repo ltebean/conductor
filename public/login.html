@@ -8,7 +8,7 @@
     function AuthController ($scope,$http,$location) {
         $scope.valid=true;
         $scope.login=function(username,password){                
-            $http.post("/ajax/ga/user/login", {username:$scope.username,password:$scope.password})
+            $http.post("/api/user/login", {username:$scope.username,password:$scope.password})
             .success(function(data) {
                 if(data.error){
                     $scope.valid=false;

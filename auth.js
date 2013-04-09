@@ -7,7 +7,11 @@ var validUser={
 
 exports.checkAuth=function(req,res,next){
 	if (!req.cookies.uid) {
-		res.redirect('/login');
+		if(req.xhr){
+			res.send(403);
+		}else{
+			res.redirect('/login');
+		}
 	} else {
 		next();
 	}

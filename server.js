@@ -2,7 +2,8 @@ var express = require('express') ;
 var http = require('http'); 
 var util = require("util");
 var auth=require('./auth');
-var config = require('./config.js');
+var pageConfig = require('./pageConfig.js');
+var groupConfig = require('./groupConfig.js');
 
 var app=express();
 app.configure(function () {
@@ -16,14 +17,22 @@ app.configure(function () {
 });
 
 // ga config api
-app.get('/ajax/ga/page', config.find); 
-app.get('/ajax/ga/page/:pageKey', config.load); 
-app.post('/ajax/ga/page', config.create); 
-app.post('/ajax/ga/page/:pageKey', config.update); 
+app.get('/api/group/:groupName/page/:pageKey', pageConfig.load); 
+
+// ga config api for admin
+app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
+app.post('/api/group/:groupName/page',auth.checkAuth, pageConfig.create); 
+app.post('/api/group/:groupName/page/:pageKey',auth.checkAuth, pageConfig.update); 
+
+// group config api for admin
+app.get('/api/group/:groupName', auth.checkAuth, groupConfig.load); 
+app.get('/api/group',auth.checkAuth, groupConfig.find); 
+app.post('/api/group',auth.checkAuth, groupConfig.create); 
+app.post('/api/group/:groupName',auth.checkAuth, groupConfig.update); 
 
 //auth api
-app.post('/ajax/ga/user/login', auth.login); 
-app.post('/ajax/ga/user/logout', auth.logout); 
+app.post('/api/user/login', auth.login); 
+app.post('/api/user/logout', auth.logout); 
 
 //static pages
 app.get('/', auth.checkAuth, function(req,res){
@@ -42,8 +51,3 @@ app.get('/proxy',require('./proxy'));
 var server=http.createServer(app);
 server.listen(3000); 
 console.log("server listening on port 3000");
-
-
-
-
-

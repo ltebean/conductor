@@ -57,7 +57,7 @@ exports.update=function(req, res){
 		function updateData(err,collection){
 			if (err) throw err;
 			collection.findAndModify(
-				{'pageKey':req.params.pageKey,'groupName':req.params.groupName},[],
+				{'pageKey':req.params.pageKey},[],
 				{$set:{'url':req.body.url,'config':req.body.config}},
 				{safe:true,new:true},
 				this);

@@ -10,7 +10,9 @@
     <style>
     
     #frm{
-        height:500px;
+        position: absolute;
+        top: 0;
+        height:100%;
         width: 1000px;
     }
     </style>
@@ -86,19 +88,25 @@
             }
         </style>
         <div id="pane" ng-controller="Rules">
-            <!-- <a class="toggle" ng-click="toggle()"><i></i></a> -->
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
                 <div class="tools">
-                    <input type="button" value="添加" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle'>
-                    <input type="button" value="保存" ng-click="save()" class="btn btn-small">
+                    <a type="button" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle' ><i class="icon-search"></i></a>
                 </div>
+
+
                 <ul class="nav nav-list">
+                <li>
+                    <div class="title">
+                        <input type="text" value="{{pv}}" ng-model="pv" style="display:none" ng-show="editpv" ng-blur="editPvDone()" ng-enter="editPvDone()" placeholder="pv" id="pv"/>
+                        <a href="javascript:;" ng-click="editPv()" ng-show="!editpv">pv：{{pv}}</a>
+                    </div>
+                </li>
                 <li ng-repeat="rule in rules">
                     <div class="title" ng-click="edit()">
                         <i style="background-color:{{rule.color}}"></i>
                         <a href="javascript:;">{{rule.key}}</a>
-                        <a class="remove" ng-click="remove()">x</a>
+                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
                     </div>
                 </li>
                 </ul>    
@@ -125,7 +133,6 @@
     </style>
 
     <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px">
-        <div class="arrow"></div>
         <h3 class="popover-title">{{type}} GA</h3>
         <div class="popover-content">
             <form class="form-horizontal" ng-submit="ok()">
@@ -141,6 +148,7 @@
                     <div class="controls">
                         <label for="action-click" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="click" id="action-click" name="ga-action" />click</label>
                         <label for="action-hover" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="hover" id="action-hover" name="ga-action" />hover</label>
+                        <label for="action-show" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="show" id="action-hover" name="ga-action" />show</label>
                     </div>
                 </div> 
             

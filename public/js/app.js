@@ -6,7 +6,7 @@ define(function(require,exports,module){
     var PageUrl = null;
 
     var loaded = false;
-    var active = true;
+    var active = false;
     var inspector;
 
 
@@ -19,16 +19,21 @@ define(function(require,exports,module){
             inspector.toggleActive();
         }
     }
-    $("#go").tooltip();
-    $("#go").on("click",toggle);
-    $(document).on("keyup",function(e){
+
+    function keyboardEvents(e){
+        // space
         if(e.keyCode == 32){
             toggle()
         }
+        // esc
         if(e.keyCode == 27){
             edit_scope.close();
         }
-    });
+    }
+
+    $("#go").tooltip();
+    $("#go").on("click",toggle);
+    $(document).on("keyup",keyboardEvents);
 
     /**
      * 页面加载完毕后
@@ -39,6 +44,7 @@ define(function(require,exports,module){
         var doc = win.document;
         var identifier = new Identifier(doc);
 
+        $(doc).on("keyup",keyboardEvents);
 
         /**
          * 元素检查器
@@ -82,6 +88,7 @@ define(function(require,exports,module){
                     action:this.action,
                     cases:this.cases
                 });
+                rules_scope.save();
             });
         });
 
@@ -94,6 +101,25 @@ define(function(require,exports,module){
      * @type {[type]}
      */
     var app = angular.module("app",[]);
+
+    app.directive('ngBlur', function() {
+      return function( scope, elem, attrs ) {
+        elem.bind('blur', function() {
+          scope.$apply(attrs.ngBlur);
+        });
+      };
+    });
+
+    app.directive('ngEnter', function() {
+      return function( scope, elem, attrs ) {
+        elem.bind('keyup', function(e) {
+            if(e.keyCode==13){
+                scope.$apply(attrs.ngEnter);
+            }
+        });
+      };
+    });
+
     app.controller('Rules', require("rules-controller"));
     app.controller('EditPanel', require("editpanel"));
     angular.bootstrap(document,['app']);
@@ -132,20 +158,21 @@ define(function(require,exports,module){
     });
 
     /**
-     * Rules in Window
+     * Rules in config
      */
     $.get("/ajax/ga/page/"+PageKey,function(data){
         var config = data.config;
         if(config){
             try{
                 config = JSON.parse(config);
-                config.forEach(function(rule){
+                config.rules.forEach(function(rule){
                     rules_scope.add(rule);
                 });
+                rules_scope.setPv(config.pv);
             }catch(e){}
         }
         PageUrl = data.url;
-        $("#frm").attr("src",data.url);
+        $("#frm").attr("src","/proxy?url="+data.url);
     });
 
 });

@@ -21,8 +21,6 @@ define(function(require,exports,module){
     }
 
     function keyboardEvents(e){
-        e.preventDefault();
-        console.log(e);
         // space
         if(e.keyCode == 32){
             toggle()
@@ -174,7 +172,7 @@ define(function(require,exports,module){
             }catch(e){}
         }
         PageUrl = data.url;
-        $("#frm").attr("src",data.url);
+        $("#frm").attr("src","/proxy?url="+data.url);
     });
 
 });

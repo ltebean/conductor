@@ -36,6 +36,9 @@ app.get('/edit/:id',function(req,res){
     res.sendfile(__dirname+'/public/edit.html'); 
 });
 
+//proxy
+app.get('/proxy',require('./proxy'));
+
 var server=http.createServer(app);
 server.listen(3000); 
 console.log("server listening on port 3000");

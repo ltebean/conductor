@@ -45,7 +45,9 @@ define(function(require,exports,module){
         var identifier = new Identifier(doc);
 
         $(doc).on("keyup",keyboardEvents);
-
+        $(doc).on("click",function(){
+            edit_scope.close();
+        });
         /**
          * 元素检查器
          * @type {Inspector}
@@ -73,7 +75,7 @@ define(function(require,exports,module){
             inspector.setActive(false);
             edit_scope.pos({
                 x:e.clientX + 50,
-                y:e.clientY - 25
+                y:e.clientY - 75
             });
             edit_scope.off();
             edit_scope.on("close",function(){
@@ -135,7 +137,6 @@ define(function(require,exports,module){
         row.active = true;
         edit_scope.init(row.rule);
         edit_scope.pop();
-        console.log(row);
         edit_scope.pos({
             x:700,
             y:row.$index * 20
@@ -174,5 +175,7 @@ define(function(require,exports,module){
         PageUrl = data.url;
         $("#frm").attr("src","/proxy?url="+data.url);
     });
+
+    $("#frm").css("width",$(window).width()-244);
 
 });

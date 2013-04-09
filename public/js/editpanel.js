@@ -54,7 +54,6 @@ define(function(require,exports,module){
                     dyer.dye(elem);
                 });              
             }
-            console.log(this.cases[index]);
         }
 
         /**

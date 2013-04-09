@@ -31,8 +31,9 @@ define(function(require,exports,module){
                 dyer.clear();
             }
         }).on("click",function(e){
-            e.preventDefault()
+            e.preventDefault();
             if(self._active){
+                e.stopPropagation();
                 self.fire("pick",e);
             }
         });

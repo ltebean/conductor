@@ -19,7 +19,7 @@
             $http.get("/api/group")
             .success(function(data) {
                 $scope.groups=data;
-                if(data[0] && data[0].name){
+                if(data && data[data.length]){
                     $scope.currentGroup=data[0].name;
                 }else{
                     $scope.currentGroup='all';
@@ -56,7 +56,7 @@
         }
         $scope.createPage=function(page){
             page.groupName=$scope.currentGroup;
-            $http.post("/api/group/"+$scope.currentGroup+"/page",page)
+            $http.post("/api/page",page)
             .success(function(data) {
                 refresh()
             }).error(function(data) {
@@ -65,7 +65,7 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/group/"+$scope.currentGroup+"/page/"+page.pageKey,page)
+            $http.post("/api/page/"+page.pageKey,page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {

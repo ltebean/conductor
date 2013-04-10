@@ -25,6 +25,8 @@ define(function(require,exports,module){
      */
     Dyer.prototype.dye = function(elem){
         elem = $(elem,this.doc);
+
+        if(!elem.is(":visible")){return false;}
         var offset = elem.offset();
         var film = $("<div />").css({
             "position":"absolute",

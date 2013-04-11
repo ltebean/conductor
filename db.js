@@ -1,6 +1,7 @@
 var mongo = require('mongodb');
+var config= require('./config.js').loadConfig();
 
-var db = new mongo.Db('gaconfig', new mongo.Server('localhost', 27017, {auto_reconnect: true}));
+var db = new mongo.Db(config.db.dbName, new mongo.Server(config.db.address, config.db.port, {auto_reconnect: true}));
 db.open(function(err, db) {
 	if(!err) {
 		console.log("Connected to  database");

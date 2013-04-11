@@ -8,6 +8,7 @@
     "express": "3.1.0",
     "step": "0.0.5",
     "mongodb": "1.2.14",
-    "request": "~2.16.6"
+    "request": "~2.16.6",
+    "optimist": "0.3.7"
   }
 }

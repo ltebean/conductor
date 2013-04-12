@@ -33,6 +33,7 @@ app.post('/api/group/:groupName',auth.checkAuth, groupConfig.update);
 app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
 
 //auth api
+app.get('/api/user', auth.loadUser); 
 app.post('/api/user/login', auth.login); 
 app.post('/api/user/logout', auth.logout); 
 
@@ -51,6 +52,6 @@ app.get('/edit/:id',function(req,res){
 app.get('/proxy',require('./proxy'));
 
 var server=http.createServer(app);
-var port = 8080;
+var port = 3000;
 server.listen(port); 
 console.log("server listening on port "+port);

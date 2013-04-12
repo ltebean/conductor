@@ -32,6 +32,15 @@
             });
         }
 
+        var loadUser=function() {
+            $http.get("/api/user")
+            .success(function(data) {
+                $scope.canWrite=data.permission=='r/w'?true:false;
+            }).error(function(data) {
+                alert("server error");
+            });
+        };
+
         var refresh=function(){
             $http.get("/api/group/"+$scope.currentGroup+"/page")
             .success(function(data) {
@@ -42,6 +51,7 @@
         }
 
         refreshGroup();
+        loadUser()
 
         $scope.viewGroup=function(group){
             $scope.currentGroup=group.name;
@@ -112,7 +122,7 @@
                     <li class="active"><a href="#">分组</a></li>
                     <li ng-repeat="group in groups"><a ng-click="viewGroup(group)">{{group.name}}</a></li>
                 </ul>
-                <a class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
+                <a ng-hide="!canWrite" class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
             </div>
             <div class="span10">
                 <div class="">
@@ -129,7 +139,7 @@
                                 <td>{{page.pageKey}}</td>
                                 <td>{{page.url}}</td>
                                 <td>
-                                    <a class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
+                                    <a ng-hide="!canWrite" class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
                                     <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
                                 </td>
                             </tr>
@@ -138,7 +148,7 @@
                 </div>
                 <div class="">
                     <form class="form-inline">
-                        <a class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+                        <a ng-hide="!canWrite" class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
                     </form>
                 </div>
             </div>

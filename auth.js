@@ -15,26 +15,30 @@ var validUsers={
 };
 
 exports.checkAuth=function(req,res,next){
-	console.log(req.method)
 	if (!req.cookies.uid) {
 		if(req.xhr){
 			res.send(403);
+			return;
 		}else{
 			res.redirect('/login');
+			return;
 		}
 	}
 	var user=validUsers[req.cookies.uid];
 	if(!user){
 		if(req.xhr){
 			res.send(403);
+			return;
 		}else{
 			res.redirect('/login');
+			return;
 		}
 	}
 
 	if(req.method=='POST'){
 		if(user.permission!='r/w'){
 			res.send(403);
+			return;
 		}
 	}
 	next();

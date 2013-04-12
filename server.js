@@ -33,6 +33,7 @@ app.post('/api/group/:groupName',auth.checkAuth, groupConfig.update);
 app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
 
 //auth api
+app.get('/api/user', auth.loadUser); 
 app.post('/api/user/login', auth.login); 
 app.post('/api/user/logout', auth.logout); 
 

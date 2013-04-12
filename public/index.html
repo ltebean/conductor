@@ -35,7 +35,8 @@
         var loadUser=function() {
             $http.get("/api/user")
             .success(function(data) {
-                $scope.canWrite=data.permission=='r/w'?true:false;
+                $scope.user=data;
+                $scope.canWrite=user.permission=='r/w'?true:false;
             }).error(function(data) {
                 alert("server error");
             });
@@ -111,6 +112,7 @@
                 <div class="navbar-conntent">
                     <a class="brand" href="#">Conductor</a>
                     <p class="navbar-text pull-right">
+                        {{user.username}} 
                         <a class="navbar-link" ng-click="logout()">退出</a>
                     </p>
                 </div>

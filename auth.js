@@ -15,7 +15,6 @@ var validUsers={
 };
 
 exports.checkAuth=function(req,res,next){
-	console.log(req.method)
 	if (!req.cookies.uid) {
 		if(req.xhr){
 			res.send(403);

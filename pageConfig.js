@@ -64,7 +64,24 @@ exports.updateUrl=function(req, res){
 		},
 		function generateResponse(err, result){
 			if (err) throw err;
-			res.send(result);		
+			res.send(result);
+			return "ok";		
+		},
+		function clearCache(err,status){
+ 			if(err) throw err;
+ 			var options={
+ 				host:'localhost',
+ 				port:'80',
+ 				path:'/api/page/'+req.params.pageKey,
+ 				method:'PURGE'
+ 			}
+ 			var request = require('http').request(options,function(response){
+			    //console.log("Connected");
+			    response.on('data',function(data){
+			        //console.log(data.toString());
+			    });
+			});
+			request.end();
 		});	
 } 
 
@@ -83,19 +100,23 @@ exports.updateConfig=function(req, res){
 		},
 		function generateResponse(err, result){
 			if (err) throw err;
-			res.send(result);		
+			res.send(result);
+			return "ok";		
+		},
+		function clearCache(err,status){
+ 			if(err) throw err;
+ 			var options={
+ 				host:'localhost',
+ 				port:'80',
+ 				path:'/api/page/'+req.params.pageKey,
+ 				method:'PURGE'
+ 			}
+ 			var request = require('http').request(options,function(response){
+			    //console.log("Connected");
+			    response.on('data',function(data){
+			        //console.log(data.toString());
+			    });
+			});
+			request.end();
 		});	
 } 
-
-var sample={
-	pageKey:'commonShop',
-	config: {
-		normal: [{
-			selector:'div #body',
-			trackKey:'dp_test_shop_updateShop_{0}_{channel}_{city}',
-			delagator:"body"
-		}],
-		lazy: [
-		]
-	}
-}

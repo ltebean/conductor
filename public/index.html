@@ -36,7 +36,7 @@
             $http.get("/api/user")
             .success(function(data) {
                 $scope.user=data;
-                $scope.canWrite=user.permission=='r/w'?true:false;
+                $scope.canWrite=data.permission=='r/w'?true:false;
             }).error(function(data) {
                 alert("server error");
             });

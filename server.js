@@ -23,12 +23,14 @@ app.get('/api/page/:pageKey', pageConfig.load);
 app.post('/api/page',auth.checkAuth, pageConfig.create); 
 app.post('/api/page/:pageKey/url',auth.checkAuth, pageConfig.updateUrl); 
 app.post('/api/page/:pageKey/config',auth.checkAuth, pageConfig.updateConfig); 
+app.post('/api/page/:pageKey/delete',auth.checkAuth, pageConfig.delete); 
 
 
 // group config api for admin
 app.get('/api/group/:groupName', auth.checkAuth, groupConfig.load); 
 app.get('/api/group',auth.checkAuth, groupConfig.find); 
 app.post('/api/group',auth.checkAuth, groupConfig.create); 
+app.post('/api/group/:groupName/delete',auth.checkAuth, groupConfig.delete); 
 app.post('/api/group/:groupName',auth.checkAuth, groupConfig.update); 
 app.get('/api/group/:groupName/page',auth.checkAuth, pageConfig.find); 
 

@@ -34,6 +34,24 @@ exports.update=function(req, res){
 		});	
 } 
 
+exports.delete=function(req, res){ 
+	Step(
+		function getCollection(){
+			db.collection('groupConfig', this); 
+		},
+		function deleteData(err,collection){
+			if (err) throw err;
+			collection.remove(
+				{'name':req.params.groupName},
+				{safe:true},
+				this);
+		},
+		function generateResponse(err, result){
+			if (err) throw err;
+			res.send(200);		
+		});	
+} 
+
 exports.find=function(req, res){ 
 	Step(
 		function getCollection(){

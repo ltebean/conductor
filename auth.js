@@ -1,5 +1,11 @@
 
 var validUsers={
+	'0':{
+			id:'0',
+			username:'super',
+			password:'super',
+			permission:'s'
+		},
 	'1':{
 			id:'1',
 			username:'admin',
@@ -36,7 +42,7 @@ exports.checkAuth=function(req,res,next){
 	}
 
 	if(req.method=='POST'){
-		if(user.permission!='r/w'){
+		if(user.permission =='r'){
 			res.send(403);
 			return;
 		}

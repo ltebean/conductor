@@ -5,9 +5,14 @@
 
     function Live(elem,event,selector,func){
         $$(elem).addEvent(event,function(e){
-            if(e.target.match(selector)){
-                func.call(e.target);
+            var elem = e.target;
+            while(elem != document.body){
+                if(elem.match(selector)){
+                    func.call(e.target);
+                }
+                elem = elem.getParent()
             }
+            
         });
     }
 

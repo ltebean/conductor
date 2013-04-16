@@ -22,13 +22,10 @@ define(function(require,exports,module){
         this.toggle = opt.toggle;
         this.showToggle();
         
-        $(doc.body).on("mouseover",function(e){
-            if(self._active){
-                dyer.dye(e.target,doc);
-            }
-        }).on("mouseout",function(){
+        $(doc.querySelectorAll("*")).on("mouseover",function(e){
             if(self._active){
                 dyer.clear();
+                dyer.dye(e.target,doc);
             }
         }).on("click",function(e){
             e.preventDefault();

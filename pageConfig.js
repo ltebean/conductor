@@ -49,6 +49,24 @@ exports.create=function(req, res){
 		});	
 } 
 
+exports.delete=function(req, res){ 
+	Step(
+		function getCollection(){
+			db.collection('pageConfig', this); 
+		},
+		function deleteData(err,collection){
+			if (err) throw err;
+			collection.remove(
+				{'pageKey':req.params.pageKey},
+				{safe:true},
+				this);
+		},
+		function generateResponse(err, result){
+			if (err) throw err;
+			res.send(200);		
+		});	
+} 
+
 exports.updateUrl=function(req, res){ 
 	Step(	
 		function getCollection(){

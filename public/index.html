@@ -36,7 +36,8 @@
             $http.get("/api/user")
             .success(function(data) {
                 $scope.user=data;
-                $scope.canWrite=data.permission=='r/w'?true:false;
+                $scope.isAdmin=data.permission=='r/w'?true:false;
+                $scope.isSuper=data.permission=='s'?true:false;
             }).error(function(data) {
                 alert("server error");
             });
@@ -86,6 +87,24 @@
             });
         }
 
+        $scope.deletePage=function(page){
+            $http.post("/api/page/"+page.pageKey+"/delete",page)
+            .success(function(data) {
+                refresh();
+            }).error(function(data) {
+                alert("server error");
+            });
+        }
+
+         $scope.deleteGroup=function(group){
+            $http.post("/api/group/"+group.name+"/delete",group)
+            .success(function(data) {
+                refreshGroup();
+            }).error(function(data) {
+                alert("server error");
+            });
+        }
+
         $scope.showPageToUpdate=function(page){
             $scope.pageToUpdate=page;
         }
@@ -122,9 +141,12 @@
             <div class="span2" >
                 <ul class="nav nav-tabs nav-stacked" >
                     <li class="active"><a href="#">分组</a></li>
-                    <li ng-repeat="group in groups"><a ng-click="viewGroup(group)">{{group.name}}</a></li>
+                    <li ng-repeat="group in groups">
+                        <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn" ng-click="deleteGroup(group)">删除</button></a>
+                        
+                    </li>
                 </ul>
-                <a ng-hide="!canWrite" class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
+                <a ng-show="isSuper" class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
             </div>
             <div class="span10">
                 <div class="">
@@ -141,8 +163,9 @@
                                 <td>{{page.pageKey}}</td>
                                 <td>{{page.url}}</td>
                                 <td>
-                                    <a ng-hide="!canWrite" class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
+                                    <a ng-show="isAdmin||isSuper" class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
                                     <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
+                                    <button ng-show="isSuper" type="submit" class="btn" ng-click="deletePage(page)">删除</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -150,7 +173,7 @@
                 </div>
                 <div class="">
                     <form class="form-inline">
-                        <a ng-hide="!canWrite" class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+                        <a ng-show="isSuper" class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
                     </form>
                 </div>
             </div>

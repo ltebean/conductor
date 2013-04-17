@@ -88,7 +88,7 @@ exports.updateUrl=function(req, res){
 		function clearCache(err,status){
  			if(err) throw err;
  			var options={
- 				host:'localhost',
+ 				host:'127.0.0.1',
  				port:'80',
  				path:'/api/page/'+req.params.pageKey,
  				method:'PURGE'
@@ -124,7 +124,7 @@ exports.updateConfig=function(req, res){
 		function clearCache(err,status){
  			if(err) throw err;
  			var options={
- 				host:'localhost',
+ 				host:'127.0.0.1',
  				port:'80',
  				path:'/api/page/'+req.params.pageKey,
  				method:'PURGE'

@@ -3,19 +3,19 @@ var validUsers={
 	'0':{
 			id:'0',
 			username:'super',
-			password:'super',
+			password:'1qaz!QAZ',
 			permission:'s'
 		},
 	'1':{
 			id:'1',
 			username:'admin',
-			password:'admin',
+			password:'2wsx@WSX',
 			permission:'r/w'
 		},
 	'2':{
 			id:'2',
 			username:'guest',
-			password:'guest',
+			password:'3edc#EDC',
 			permission:'r'
 		}
 };

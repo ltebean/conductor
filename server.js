@@ -4,6 +4,8 @@ var util = require("util");
 var auth=require('./auth');
 var pageConfig = require('./pageConfig.js');
 var groupConfig = require('./groupConfig.js');
+var callbackConfig = require('./callbackConfig.js');
+
 
 var app=express();
 app.configure(function () {
@@ -24,6 +26,12 @@ app.post('/api/page',auth.checkAuth, pageConfig.create);
 app.post('/api/page/:pageKey/url',auth.checkAuth, pageConfig.updateUrl); 
 app.post('/api/page/:pageKey/config',auth.checkAuth, pageConfig.updateConfig); 
 app.post('/api/page/:pageKey/delete',auth.checkAuth, pageConfig.delete); 
+
+// callback config api
+app.get('/api/callback', auth.checkAuth,callbackConfig.find); 
+app.post('/api/callback',auth.checkAuth, callbackConfig.create); 
+app.post('/api/callback/:name',auth.checkAuth, callbackConfig.load); 
+app.post('/api/callback/:name/delete',auth.checkAuth, callbackConfig.delete); 
 
 
 // group config api for admin

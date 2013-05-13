@@ -1,25 +1,14 @@
 var args = require('optimist').argv;
+var fs = require('fs');
 
-var development={
-	db:{
-		adddress:'localhost',
-		port:27017,
-		dbName:'gaconfig'
-	}
-};
+var config;
 
-var product={
-	db:{
-		address:'localhost',
-		port:27017,
-		dbName:'gaconfig'
+exports.loadConfig = function() {
+	if (!config) {
+		var path = args.config;
+		var s = fs.readFileSync(path.toString(), 'utf8');
+		config=JSON.parse(s);
+	    console.log(config);
 	}
-};
-
-exports.loadConfig=function() {
-	if(args.env='product'){
-		return product;
-	}else{
-		return development;
-	}
+	return config;
 };

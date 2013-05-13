@@ -84,22 +84,6 @@ exports.updateUrl=function(req, res){
 			if (err) throw err;
 			res.send(result);
 			return "ok";		
-		},
-		function clearCache(err,status){
- 			if(err) throw err;
- 			var options={
- 				host:'127.0.0.1',
- 				port:'80',
- 				path:'/api/page/'+req.params.pageKey,
- 				method:'PURGE'
- 			}
- 			var request = require('http').request(options,function(response){
-			    //console.log("Connected");
-			    response.on('data',function(data){
-			        //console.log(data.toString());
-			    });
-			});
-			request.end();
 		});	
 } 
 
@@ -119,22 +103,5 @@ exports.updateConfig=function(req, res){
 		function generateResponse(err, result){
 			if (err) throw err;
 			res.send(result);
-			return "ok";		
-		},
-		function clearCache(err,status){
- 			if(err) throw err;
- 			var options={
- 				host:'127.0.0.1',
- 				port:'80',
- 				path:'/api/page/'+req.params.pageKey,
- 				method:'PURGE'
- 			}
- 			var request = require('http').request(options,function(response){
-			    //console.log("Connected");
-			    response.on('data',function(data){
-			        //console.log(data.toString());
-			    });
-			});
-			request.end();
 		});	
 } 

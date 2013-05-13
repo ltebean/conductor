@@ -1,24 +1,5 @@
 
-var validUsers={
-	'0':{
-			id:'0',
-			username:'super',
-			password:'1qaz!QAZ',
-			permission:'s'
-		},
-	'1':{
-			id:'1',
-			username:'admin',
-			password:'2wsx@WSX',
-			permission:'r/w'
-		},
-	'2':{
-			id:'2',
-			username:'guest',
-			password:'3edc#EDC',
-			permission:'r'
-		}
-};
+var validUsers=require('./config.js').loadConfig().validUsers;
 
 exports.checkAuth=function(req,res,next){
 	if (!req.cookies.uid) {

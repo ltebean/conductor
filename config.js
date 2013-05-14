@@ -8,7 +8,7 @@ exports.loadConfig = function() {
 		var path = args.config;
 		var s = fs.readFileSync(path.toString(), 'utf8');
 		config=JSON.parse(s);
-	    console.log(config);
+	    //console.log(config);
 	}
 	return config;
 };

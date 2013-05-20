@@ -70,6 +70,7 @@
         }
         $scope.createPage=function(page){
             page.groupName=$scope.currentGroup;
+            page.callback=JSON.parse(page.callback);
             $http.post("/api/page",page)
             .success(function(data) {
                 refresh()
@@ -79,7 +80,8 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/page/"+page.pageKey+"/url",page)
+            page.callback=JSON.parse(page.callback);
+            $http.post("/api/page/"+page.pageKey+"/meta",page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {
@@ -107,6 +109,7 @@
 
         $scope.showPageToUpdate=function(page){
             $scope.pageToUpdate=page;
+            $scope.pageToUpdate.callback=JSON.stringify(page.callback);
         }
 
         $scope.logout=function(username,password){                
@@ -191,7 +194,14 @@
                         <input type="text" ng-model="pageToUpdate.url" class="input-xlarge">
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">callback:</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToUpdate.callback" class="input-xlarge">
+                    </div>
+                </div>
             </div>
+                
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
                 <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
@@ -214,6 +224,12 @@
                     <label class="control-label" for="input01">页面URL</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToCreate.url" class="input-xlarge">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">callback</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToCreate.callback" class="input-xlarge">
                     </div>
                 </div>
             </div>

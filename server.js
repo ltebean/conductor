@@ -4,7 +4,6 @@ var util = require("util");
 var auth=require('./auth');
 var pageConfig = require('./pageConfig.js');
 var groupConfig = require('./groupConfig.js');
-var callbackConfig = require('./callbackConfig.js');
 
 
 var app=express();
@@ -23,16 +22,9 @@ app.get('/api/page/:pageKey', pageConfig.load);
 
 // ga config api for admin
 app.post('/api/page',auth.checkAuth, pageConfig.create); 
-app.post('/api/page/:pageKey/url',auth.checkAuth, pageConfig.updateUrl); 
+app.post('/api/page/:pageKey/meta',auth.checkAuth, pageConfig.updateMeta); 
 app.post('/api/page/:pageKey/config',auth.checkAuth, pageConfig.updateConfig); 
 app.post('/api/page/:pageKey/delete',auth.checkAuth, pageConfig.delete); 
-
-// callback config api
-app.get('/api/callback', auth.checkAuth,callbackConfig.find); 
-app.post('/api/callback',auth.checkAuth, callbackConfig.create); 
-app.post('/api/callback/:name',auth.checkAuth, callbackConfig.load); 
-app.post('/api/callback/:name/delete',auth.checkAuth, callbackConfig.delete); 
-
 
 // group config api for admin
 app.get('/api/group/:groupName', auth.checkAuth, groupConfig.load); 
@@ -62,6 +54,6 @@ app.get('/edit/:id',function(req,res){
 app.get('/proxy',require('./proxy'));
 
 var server=http.createServer(app);
-var port = 8080;
+var port = 3000;
 server.listen(port); 
 console.log("server listening on port "+port);

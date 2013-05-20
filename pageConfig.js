@@ -67,7 +67,7 @@ exports.delete=function(req, res){
 		});	
 } 
 
-exports.updateUrl=function(req, res){ 
+exports.updateMeta=function(req, res){ 
 	Step(	
 		function getCollection(){
 			db.collection('pageConfig', this); 
@@ -76,7 +76,7 @@ exports.updateUrl=function(req, res){
 			if (err) throw err;
 			collection.findAndModify(
 				{'pageKey':req.params.pageKey},[],
-				{$set:{'url':req.body.url}},
+				{$set:{'url':req.body.url,'callback':req.body.callback}},
 				{safe:true,new:true},
 				this);
 		},

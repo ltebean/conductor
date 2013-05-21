@@ -9,7 +9,39 @@ define(function(require,exports,module){
     var active = false;
     var inspector;
 
+    function hasNthChild(str){
+        return str.indexOf("nth-child")!=-1
+    }
 
+    window.hint = function hint(str){
+        var elem;
+
+        if(!hint.elem){
+            elem = hint.elem = $("<div />").addClass("hint");
+            elem.appendTo($("body"));
+        }else{
+            elem = hint.elem;
+        }
+
+        elem.html(str);
+
+        elem.css("display","block");
+        elem.css("opacity",0);
+        elem.css("left",($(window).width() - elem.width()) / 2)
+
+        elem.animate({
+            opacity:100
+        },500,function(){
+            setTimeout(function(){
+                elem.animate({
+                    "opacity":0
+                },500,function(){
+                    elem.css("display","none")
+                })
+            },4000)
+        })
+
+    }
 
     function toggle(){
         if(!loaded){
@@ -88,6 +120,7 @@ define(function(require,exports,module){
                     parent:this.parent,
                     multi:this.multi,
                     action:this.action,
+                    cb:this.cb,
                     cases:this.cases
                 });
                 rules_scope.save();
@@ -152,6 +185,9 @@ define(function(require,exports,module){
     });
 
     rules_scope.on("save",function(data){
+        if(hasNthChild(data.parent) || hasNthChild(data.selector)){
+            hint("选择器中包含nth-child可能造成不同页面对应元素的不一致，建议后端同学加上class或id以获得更好的效果。")
+        }
         $.post("/api/page/"+PageKey+"/config",{
             config:JSON.stringify(data),
             url:PageUrl
@@ -163,6 +199,7 @@ define(function(require,exports,module){
      */
     $.get("/api/page/"+PageKey,function(data){
         var config = data.config;
+        var callbacks;
         if(config){
             try{
                 config = JSON.parse(config);
@@ -173,6 +210,18 @@ define(function(require,exports,module){
             }catch(e){}
         }
         PageUrl = data.url;
+
+        try{
+            callbacks = Object.keys(JSON.parse(data.callback));
+        }catch(e){
+            callbacks = ["ga"];
+        }
+
+        rules_scope.callbacks = callbacks;
+        edit_scope.callbacks = callbacks;
+
+        rules_scope.safeapply();
+        edit_scope.cb = callbacks[0];
         $("#frm").attr("src","/proxy?url="+data.url);
     });
 

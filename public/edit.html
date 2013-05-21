@@ -21,6 +21,16 @@
 <body>
     <div class="mainpage">
         <style>
+            .hint{
+                background-color: #f53;
+                color:#fff;
+                position: fixed;
+                width:500px;
+                margin:0 auto;
+                top: 0;
+                text-align: center;
+                padding: 5px;
+            }
             #pane{
                 position:fixed;
                 display: table;
@@ -65,9 +75,18 @@
                 padding:0;
             }
             
-            #pane .nav li{
+            #pane .nav .list-line{
                 padding:5px 10px;
                 border-bottom:1px dashed #ccc;
+            }
+            
+            #pane .nav h3{
+                border-left:5px solid #333;
+                padding:3px 0 3px 7px;
+                color:#333;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 14px;
             }
 
             #pane .nav li:after{
@@ -90,53 +109,34 @@
         <div id="pane" ng-controller="Rules">
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
-                <div class="tools">
-                    <a type="button" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle' ><i class="icon-search"></i></a>
-                </div>
-
-
-                <ul class="nav nav-list">
-                <li>
-                    <div class="title">
-                        <input type="text" value="{{pv}}" ng-model="pv" style="display:none" ng-show="editpv" ng-blur="editPvDone()" ng-enter="editPvDone()" placeholder="pv" id="pv"/>
-                        <a href="javascript:;" ng-click="editPv()" ng-show="!editpv">pv：{{pv}}</a>
+                    <div class="tools">
+                        <a type="button" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle' ><i class="icon-search"></i></a>
                     </div>
-                </li>
-                <li>
-                    <div class="title">action click</div>
-                </li>
-                <li ng-repeat='rule in rules | filter:{action:"click"}'>
-                    <div class="title" ng-click="edit()">
-                        <i style="background-color:{{rule.color}}"></i>
-                        <a href="javascript:;">{{rule.key}}</a>
-                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
+
+
+                    <div class="nav nav-list">
+                        <div class="list-line">
+                            <div class="title">
+                                <input type="text" value="{{pv}}" ng-model="pv" style="display:none" ng-show="editpv" ng-blur="editPvDone()" ng-enter="editPvDone()" placeholder="pv" id="pv"/>
+                                <a href="javascript:;" ng-click="editPv()" ng-show="!editpv">pv：{{pv}}</a>
+                            </div>
+                        </div>
+                        <div ng-repeat="cb in callbacks">
+                            <h3 class="title">callback {{cb}}</h3>
+                            <div ng-repeat="action in ['click','hover','show']">
+                                <div class="list-line">
+                                    <div class="title">action {{action}}</div>
+                                </div>
+                                <div class="list-line" ng-repeat='rule in rules | filter:{action:action} | filter:{cb:cb}'>
+                                    <div class="title" ng-click="edit()">
+                                        <i style="background-color:{{rule.color}}"></i>
+                                        <a href="javascript:;">{{rule.key}}</a>
+                                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </li>
-
-                <li>
-                    <div class="title">action hover</div>
-                </li>
-
-                <li ng-repeat='rule in rules | filter:{action:"hover"}'>
-                    <div class="title" ng-click="edit()">
-                        <i style="background-color:{{rule.color}}"></i>
-                        <a href="javascript:;">{{rule.key}}</a>
-                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="title">action show</div>
-                </li>
-
-                <li ng-repeat='rule in rules | filter:{action:"show"}'>
-                    <div class="title" ng-click="edit()">
-                        <i style="background-color:{{rule.color}}"></i>
-                        <a href="javascript:;">{{rule.key}}</a>
-                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
-                    </div>
-                </li>
-                </ul>    
                 </div>
             </div>
         </div>
@@ -160,11 +160,11 @@
     </style>
 
     <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px">
-        <h3 class="popover-title">{{type}} GA</h3>
+        <h3 class="popover-title">{{type}} {{cb}}</h3>
         <div class="popover-content">
             <form class="form-horizontal" ng-submit="ok()">
                 <div class="control-group">
-                    <label for="ga-key" class="control-label" >GA key：</label>
+                    <label for="ga-key" class="control-label">key：</label>
                     <div class="controls">
                         <input type="text" id="ga-key" placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
                     </div>
@@ -178,6 +178,15 @@
                         <label for="action-show" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="show" id="action-show" name="ga-action" />show</label>
                     </div>
                 </div> 
+
+                <div class="control-group">
+                    <label class="control-label">类型：</label>
+                    <div class="controls">
+                        <label class="radio inline" ng-repeat="cb in callbacks"  for="chk-{{cb}}">
+                        <input type="radio" name="cb" ng-checked="$parent.cb == ga" ng-value="cb" ng-model="$parent.cb" id="chk-{{cb}}" />{{cb}}
+                        </label>
+                    </div>
+                </div>
             
                 <div class="control-group">
                     <label class="control-label">多个：</label>
@@ -186,7 +195,8 @@
                           <input type="checkbox" ng-model="multi" ng-change="changemulti()">
                         </label>
                     </div>
-                </div> 
+                </div>
+
                 <div class="pagination pagination-small control-group" ng-show="multi && cases.length">
                     <label class="control-label">组：</label>
                     <div class="controls">

@@ -30,6 +30,7 @@ define(function(require,exports,module){
     Rule.prototype.update = function(data){
         this.key = data.key;
         this.action = data.action;
+        this.cb = data.cb;
         this.multi = data.multi;
         this.parent = data.parent;
         this.selector = data.selector;
@@ -41,6 +42,7 @@ define(function(require,exports,module){
         return {
             key:this.key,
             action:this.action,
+            cb:this.cb,
             multi:this.multi,
             parent:this.parent,
             selector:this.selector

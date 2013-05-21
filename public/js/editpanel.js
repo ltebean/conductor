@@ -81,6 +81,7 @@ define(function(require,exports,module){
             $scope.left = 0;
             $scope.top = 0;
             $scope.action = data.action || "click";
+            $scope.cb = data.cb || "ga";
             $scope.key = data.key || "";
             $scope.selector = data.selector || "";
             $scope.parent = data.parent || "body";

@@ -15,6 +15,8 @@ define(function(require,exports,module){
             }
         }
 
+        $scope.safeapply = apply;
+
         $scope.dyeall = function(){
             $scope.rules.forEach(function(rule){
                 rule.createDyer($scope.doc);

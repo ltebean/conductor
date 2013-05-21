@@ -52,6 +52,18 @@
             });
         }
 
+        var setDefaultCallback = function(page){
+            var def = {"ga":"dpga(key)"};
+            try{
+                page.callback = JSON.parse(page.callback)
+            }catch(e){
+                page.callback = {}
+            }
+
+            page.callback = angular.extend(def,page.callback);
+            page.callback = JSON.stringify(page.callback);
+        }
+
         refreshGroup();
         loadUser()
 
@@ -69,6 +81,7 @@
             });
         }
         $scope.createPage=function(page){
+            setDefaultCallback(page);
             page.groupName=$scope.currentGroup;
             $http.post("/api/page",page)
             .success(function(data) {
@@ -79,6 +92,7 @@
         }
 
         $scope.updatePage=function(page){
+            setDefaultCallback(page);
             $http.post("/api/page/"+page.pageKey+"/meta",page)
             .success(function(data) {
                 refresh();

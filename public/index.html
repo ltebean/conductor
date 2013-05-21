@@ -70,7 +70,6 @@
         }
         $scope.createPage=function(page){
             page.groupName=$scope.currentGroup;
-            page.callback=JSON.parse(page.callback);
             $http.post("/api/page",page)
             .success(function(data) {
                 refresh()
@@ -80,7 +79,6 @@
         }
 
         $scope.updatePage=function(page){
-            page.callback=JSON.parse(page.callback);
             $http.post("/api/page/"+page.pageKey+"/meta",page)
             .success(function(data) {
                 refresh();
@@ -109,7 +107,6 @@
 
         $scope.showPageToUpdate=function(page){
             $scope.pageToUpdate=page;
-            $scope.pageToUpdate.callback=JSON.stringify(page.callback);
         }
 
         $scope.logout=function(username,password){                
@@ -209,6 +206,7 @@
         </div>
 
         <div id="newDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <form novalidate name="form">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 id="myModalLabel">新建</h3>
@@ -217,7 +215,7 @@
                 <div class="control-group">
                     <label class="control-label" for="input01">pageKey</label>
                     <div class="controls">
-                        <input type="text" ng-model="pageToCreate.pageKey" class="input-xlarge">
+                        <input type="text" ng-model="pageToCreate.pageKey" required class="input-xlarge">
                     </div>
                 </div>
                 <div class="control-group">
@@ -235,8 +233,9 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
+                <button class="btn btn-primary" ng-disabled="form.$invalid" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
             </div>
+            </form>
         </div>
 
         <div id="newGroupDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

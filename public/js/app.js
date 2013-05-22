@@ -10,6 +10,7 @@ define(function(require,exports,module){
     var inspector;
 
     function hasNthChild(str){
+        if(!str){str = "";}
         return str.indexOf("nth-child")!=-1
     }
 
@@ -114,6 +115,9 @@ define(function(require,exports,module){
                 inspector.setActive(true);
             })
             edit_scope.on("done",function(){
+                if(hasNthChild(this.parent) || hasNthChild(this.selector)){
+                    hint("选择器中包含nth-child可能造成不同页面对应元素的不一致，建议后端同学加上class或id以获得更好的效果。")
+                }
                 rules_scope.add({
                     key:this.key || "hey_name_me",
                     selector:this.selector,
@@ -180,14 +184,14 @@ define(function(require,exports,module){
             row.active = false;
         });
         edit_scope.on("done",function(){
+            if(hasNthChild(this.parent) || hasNthChild(this.selector)){
+                hint("选择器中包含nth-child可能造成不同页面对应元素的不一致，建议后端同学加上class或id以获得更好的效果。")
+            }
             rules_scope.updateRule(row,this);
         });
     });
 
     rules_scope.on("save",function(data){
-        if(hasNthChild(data.parent) || hasNthChild(data.selector)){
-            hint("选择器中包含nth-child可能造成不同页面对应元素的不一致，建议后端同学加上class或id以获得更好的效果。")
-        }
         $.post("/api/page/"+PageKey+"/config",{
             config:JSON.stringify(data),
             url:PageUrl

@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce8fde7d-a284-44bb-9bd3-03a412e12087" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="conductor.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ce8fde7d-a284-44bb-9bd3-03a412e12087" time="1368064940773" ignored="false" />
+    <file path="/Dummy.txt" changelist="ce8fde7d-a284-44bb-9bd3-03a412e12087" time="1370308556235" ignored="false" />
     <file path="/db.js" changelist="ce8fde7d-a284-44bb-9bd3-03a412e12087" time="1367112800093" ignored="false" />
     <file path="/auth.js" changelist="ce8fde7d-a284-44bb-9bd3-03a412e12087" time="1367114027547" ignored="false" />
     <file path="/server.js" changelist="ce8fde7d-a284-44bb-9bd3-03a412e12087" time="1367114340303" ignored="false" />
@@ -41,16 +41,25 @@
       <file leaf-file-name="auth.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="32" selection-start="925" selection-end="925" vertical-scroll-proportion="0.0">
+            <state line="46" column="32" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="66" selection-start="564" selection-end="564" vertical-scroll-proportion="0.2610966">
+            <state line="23" column="52" selection-start="646" selection-end="646" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pageConfig.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pageConfig.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="17" selection-start="1074" selection-end="1074" vertical-scroll-proportion="1.5013055">
               <folding />
             </state>
           </provider>
@@ -391,7 +400,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/auth.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="32" selection-start="925" selection-end="925" vertical-scroll-proportion="0.0">
+        <state line="46" column="32" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -405,7 +414,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="66" selection-start="564" selection-end="564" vertical-scroll-proportion="0.2610966">
+        <state line="23" column="52" selection-start="646" selection-end="646" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pageConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="17" selection-start="1074" selection-end="1074" vertical-scroll-proportion="1.5013055">
           <folding />
         </state>
       </provider>

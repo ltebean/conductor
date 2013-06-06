@@ -32,6 +32,7 @@ define(function(require,exports,module){
         this.action = data.action;
         this.cb = data.cb;
         this.multi = data.multi;
+        this.delegate = data.delegate;
         this.parent = data.parent;
         this.selector = data.selector;
         this.cases = data.cases;
@@ -44,6 +45,7 @@ define(function(require,exports,module){
             action:this.action,
             cb:this.cb,
             multi:this.multi,
+            delegate:this.delegate,
             parent:this.parent,
             selector:this.selector
         }

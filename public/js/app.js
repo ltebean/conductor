@@ -123,6 +123,7 @@ define(function(require,exports,module){
                     selector:this.selector,
                     parent:this.parent,
                     multi:this.multi,
+                    delegate:this.delegate,
                     action:this.action,
                     cb:this.cb,
                     cases:this.cases

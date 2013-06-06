@@ -15,6 +15,8 @@ define(function(require,exports,module){
             }
         }
 
+        $scope.safeapply = apply;
+
         $scope.dyeall = function(){
             $scope.rules.forEach(function(rule){
                 rule.createDyer($scope.doc);
@@ -70,9 +72,13 @@ define(function(require,exports,module){
         }
 
         $scope.remove = function(){
-            var rule = $scope.rules[this.$index];
+            var me = this;
+            var rule = $scope.rules.filter(function(rule){
+                return me.rule == rule;
+            })[0];
+            if(!rule){return};
             rule.clear();
-            $scope.rules.splice(this.$index,1);
+            $scope.rules.splice($scope.rules.indexOf(rule),1);
             $scope.save();
         }
 

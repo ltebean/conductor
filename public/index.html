@@ -2,15 +2,20 @@
 <html ng-app>
 <head>
     <title>Conductor</title>
+
     <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+    <link rel="stylesheet" href="/public/css/ace.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-skins.min.css" />
+
     <script src="/public/js/angular.js"></script>
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
     <style>
-      .container {
-        width: 1024px;
-        margin:auto;
-      }
+    body {
+    }
     </style>
     <script type="text/javascript">
     function Controller ($scope,$http) { 
@@ -52,6 +57,18 @@
             });
         }
 
+        var setDefaultCallback = function(page){
+            var def = {"ga":"dpga(key)"};
+            try{
+                page.callback = JSON.parse(page.callback)
+            }catch(e){
+                page.callback = {}
+            }
+
+            page.callback = angular.extend(def,page.callback);
+            page.callback = JSON.stringify(page.callback);
+        }
+
         refreshGroup();
         loadUser()
 
@@ -69,6 +86,7 @@
             });
         }
         $scope.createPage=function(page){
+            setDefaultCallback(page);
             page.groupName=$scope.currentGroup;
             $http.post("/api/page",page)
             .success(function(data) {
@@ -79,7 +97,8 @@
         }
 
         $scope.updatePage=function(page){
-            $http.post("/api/page/"+page.pageKey+"/url",page)
+            setDefaultCallback(page);
+            $http.post("/api/page/"+page.pageKey+"/meta",page)
             .success(function(data) {
                 refresh();
             }).error(function(data) {
@@ -125,10 +144,9 @@
     </script>
 </head>
 <body ng-controller="Controller">
-    <div id="wrap">
         <div class="navbar">
             <div class="navbar-inner">
-                <div class="navbar-conntent">
+                <div class="container-fluid navbar-conntent">
                     <a class="brand" href="#">Conductor</a>
                     <p class="navbar-text pull-right">
                         {{user.username}} 
@@ -137,20 +155,55 @@
                 </div>
             </div>
         </div>
-        <div class="container row">
-            <div class="span2" >
-                <ul class="nav nav-tabs nav-stacked" >
-                    <li class="active"><a href="#">分组</a></li>
+        <div class="container-fluid" id="main-container">
+            <div id="sidebar">
+                <div id="sidebar-shortcuts">
+                    <div id="sidebar-shortcuts-large">
+                        <button class="btn btn-small btn-success">
+                            <i class="icon-list"></i>
+                        </button>
+
+                        <button class="btn btn-small btn-info">
+                            <i class="icon-plus"></i>
+                        </button>
+
+                        <button class="btn btn-small btn-warning">
+                            <i class="icon-minus"></i>
+                        </button>
+
+                        <button class="btn btn-small btn-danger">
+                            <i class="icon-pencil"></i>
+                        </button>
+                    </div>                    
+                </div>
+                <ul class="nav nav-list" >
                     <li ng-repeat="group in groups">
-                        <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn" ng-click="deleteGroup(group)">删除</button></a>
+                        <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn btn-mini" ng-click="deleteGroup(group)">删除</button></a>
                         
                     </li>
                 </ul>
-                <a ng-show="isSuper" class="btn" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
+                <a ng-show="isSuper" class="btn btn-small" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
             </div>
-            <div class="span10">
-                <div class="">
-                    <table class="table table-hove">
+            <div id="main-content" class="clearfix">
+                <div id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="icon-edit"></i>
+                            <a href="#">Group: {{currentGroup}}</a>
+
+                            
+                        </li>
+                    </ul><!--.breadcrumb-->
+
+                </div>
+                <div class="row-fluid" id="page-content">
+                    <div class="page-header position-relative">
+                        <h1>
+                            Configuration
+                        </h1>
+                    </div>
+
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>pageKey</th>
@@ -160,12 +213,12 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="page in pages">
-                                <td>{{page.pageKey}}</td>
+                                <td class="hidden-480">{{page.pageKey}}</td>
                                 <td>{{page.url}}</td>
                                 <td>
-                                    <a ng-show="isAdmin||isSuper" class="btn" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
-                                    <button type="submit" class="btn" ng-click="viewPage(page)">查看</button>
-                                    <button ng-show="isSuper" type="submit" class="btn" ng-click="deletePage(page)">删除</button>
+                                    <a ng-show="isAdmin||isSuper" class="btn btn-mini btn-info" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
+                                    <button type="submit" class="btn btn-mini btn-info" ng-click="viewPage(page)">查看</button>
+                                    <button ng-show="isSuper" type="submit" class="btn btn-mini btn-info" ng-click="deletePage(page)">删除</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -173,7 +226,7 @@
                 </div>
                 <div class="">
                     <form class="form-inline">
-                        <a ng-show="isSuper" class="btn" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+                        <a ng-show="isSuper" class="btn btn-small" href="#newDialog"  role="button" data-toggle="modal">添加</a>
                     </form>
                 </div>
             </div>
@@ -191,10 +244,17 @@
                         <input type="text" ng-model="pageToUpdate.url" class="input-xlarge">
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">callback:</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToUpdate.callback" class="input-xlarge">
+                    </div>
+                </div>
             </div>
+                
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
             </div>
         </div>
 
@@ -207,7 +267,7 @@
                 <div class="control-group">
                     <label class="control-label" for="input01">pageKey</label>
                     <div class="controls">
-                        <input type="text" ng-model="pageToCreate.pageKey" class="input-xlarge">
+                        <input type="text" ng-model="pageToCreate.pageKey" required class="input-xlarge">
                     </div>
                 </div>
                 <div class="control-group">
@@ -216,10 +276,16 @@
                         <input type="text" ng-model="pageToCreate.url" class="input-xlarge">
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="input01">callback</label>
+                    <div class="controls">
+                        <input type="text" ng-model="pageToCreate.callback" class="input-xlarge">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-small btn-primary" ng-disabled="form.$invalid" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
             </div>
         </div>
 
@@ -237,10 +303,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createGroup(groupToCreate)">新建</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createGroup(groupToCreate)">新建</button>
             </div>
         </div>
-    </div>
 </body>
 </html>

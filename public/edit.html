@@ -148,13 +148,13 @@
 
     <style>
         .editpanel{
-            width:310px;
+            width:320px;
             top:20px;
             display: none;
         }
 
         .editpanel .control-label{
-            width:60px;
+            width:70px;
         }
 
         .editpanel .controls{
@@ -208,6 +208,16 @@
                       </ul>
                   </div>
                 </div>
+    
+                
+                <div class="control-group">
+                    <div class="control-label">延迟出现：</div>
+                    <div class="controls">
+                        <label class="checkbox">
+                          <input type="checkbox" ng-model="delegate">
+                        </label>
+                    </div>
+                </div>
 
                 <div class="control-group">
                     <div class="control-label">选择器：</div>
@@ -215,7 +225,6 @@
                         <input type="text" ng-model="selector">
                     </div>
                 </div>
-                
 
                 <div class="control-group">
                     <div class="control-label">父节点：</div>

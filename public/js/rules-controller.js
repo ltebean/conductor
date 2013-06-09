@@ -18,7 +18,7 @@ define(function(require,exports,module){
         $scope.safeapply = apply;
 
         $scope.dyeall = function(){
-            $scope.rules.forEach(function(rule){
+            $scope.rules.forEach(function(rule,index){
                 rule.createDyer($scope.doc);
                 rule.dyeSelf();
             });
@@ -46,6 +46,9 @@ define(function(require,exports,module){
             rule.createDyer($scope.doc);
             rule.dyeSelf();
             if($scope.rules.indexOf(rule) == -1){
+                if(!rule.index){
+                    rule.index=$scope.rules.length;
+                }
                 $scope.rules.push(rule);
                 // ref: http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
                 apply();

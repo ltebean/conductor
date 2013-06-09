@@ -12,6 +12,7 @@ define(function(require,exports,module){
         this.doc = opt.doc || document;
         this.color = opt.color;
         this.films = [];
+        this.index=opt.index||(opt.index==0?0:"");
         if(opt.active == true){
             Dyer.activeInstance = this;
         }
@@ -28,7 +29,7 @@ define(function(require,exports,module){
 
         if(!elem.is(":visible")){return false;}
         var offset = elem.offset();
-        var film = $("<div />").css({
+        var film = $("<div>"+this.index+"</div>").css({
             "position":"absolute",
             "background-color":this.color,
             "opacity":.8,

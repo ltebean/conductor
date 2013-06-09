@@ -18,7 +18,8 @@ define(function(require,exports,module){
             this.dyer = new Dyer({
                 doc:doc,
                 color:this.color,
-                active:false
+                active:false,
+                index:this.index||""
             });
         }
     }
@@ -36,6 +37,7 @@ define(function(require,exports,module){
         this.parent = data.parent;
         this.selector = data.selector;
         this.cases = data.cases;
+        this.index=data.index||"";
         this.dyeSelf();
     }
 

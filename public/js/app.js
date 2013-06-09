@@ -208,7 +208,8 @@ define(function(require,exports,module){
         if(config){
             try{
                 config = JSON.parse(config);
-                config.rules.forEach(function(rule){
+                config.rules.forEach(function(rule,index){
+                    rule.index=index;
                     rules_scope.add(rule);
                 });
                 rules_scope.setPv(config.pv);

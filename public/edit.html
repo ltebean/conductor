@@ -96,10 +96,14 @@
             }
 
             #pane .nav i{
-                width: 12px;
-                height: 12px;
+                width: 16px;
+                height: 16px;
                 display: inline-block;
                 margin-right: 5px;
+                font-size: 12px;
+                text-align: center;
+                line-height: 16px;
+                color: #fff;
             }
 
             #pane .nav .remove{
@@ -129,7 +133,7 @@
                                 </div>
                                 <div class="list-line" ng-repeat='rule in rules | filter:{action:action} | filter:{cb:cb}'>
                                     <div class="title" ng-click="edit()">
-                                        <i style="background-color:{{rule.color}}"></i>
+                                        <i style="background-color:{{rule.color}}">{{rule.list.indexOf(rule)+1}}</i>
                                         <a href="javascript:;">{{rule.key}}</a>
                                         <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
                                     </div>

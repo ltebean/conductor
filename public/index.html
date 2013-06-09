@@ -156,25 +156,6 @@
         </div>
         <div class="container-fluid" id="main-container">
             <div id="sidebar">
-                <div id="sidebar-shortcuts">
-                    <div id="sidebar-shortcuts-large">
-                        <button class="btn btn-small btn-success">
-                            <i class="icon-list"></i>
-                        </button>
-
-                        <button class="btn btn-small btn-info">
-                            <i class="icon-plus"></i>
-                        </button>
-
-                        <button class="btn btn-small btn-warning">
-                            <i class="icon-minus"></i>
-                        </button>
-
-                        <button class="btn btn-small btn-danger">
-                            <i class="icon-pencil"></i>
-                        </button>
-                    </div>                    
-                </div>
                 <ul class="nav nav-list" >
                     <li ng-repeat="group in groups">
                         <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn btn-mini" ng-click="deleteGroup(group)">删除</button></a>
@@ -184,17 +165,7 @@
                 <a ng-show="isSuper" class="btn btn-small" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
             </div>
             <div id="main-content" class="clearfix">
-                <div id="breadcrumbs">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="icon-edit"></i>
-                            <a href="#">Group: {{currentGroup}}</a>
-
-                            
-                        </li>
-                    </ul><!--.breadcrumb-->
-
-                </div>
+                
                 <div class="row-fluid" id="page-content">
                     <div class="page-header position-relative">
                         <h1>

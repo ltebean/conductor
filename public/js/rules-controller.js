@@ -43,13 +43,14 @@ define(function(require,exports,module){
 
         $scope.add = function(data){
             var rule = new Rule(data);
+            rule.list = $scope.rules;
             rule.createDyer($scope.doc);
-            rule.dyeSelf();
             if($scope.rules.indexOf(rule) == -1){
                 $scope.rules.push(rule);
                 // ref: http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
                 apply();
             }
+            rule.dyeSelf();
         }
 
         $scope.save = function(){
@@ -79,6 +80,9 @@ define(function(require,exports,module){
             if(!rule){return};
             rule.clear();
             $scope.rules.splice($scope.rules.indexOf(rule),1);
+            $scope.rules.forEach(function(rule){
+                rule.updateIndex();
+            })
             $scope.save();
         }
 

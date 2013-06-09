@@ -25,7 +25,7 @@ define(function(require,exports,module){
         $(doc.querySelectorAll("*")).on("mouseover",function(e){
             if(self._active){
                 dyer.clear();
-                dyer.dye(e.target,doc);
+                dyer.dye(e.target);
             }
         }).on("click",function(e){
             e.preventDefault();

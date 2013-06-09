@@ -20,7 +20,7 @@ define(function(require,exports,module){
     /**
      * 渲染单个元素 覆盖层于元素上
      * @param  {Element} elem    [description]
-     * @param  {} context [description]
+     * @param  {Number} index [description]
      * @return {[type]}         [description]
      */
     Dyer.prototype.dye = function(elem){
@@ -39,6 +39,7 @@ define(function(require,exports,module){
             "pointer-events":"none",
             "z-index":9999
         });
+        
         this.films.push(film);
         film.appendTo(this.doc.body);
     }

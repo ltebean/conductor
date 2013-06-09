@@ -77,6 +77,7 @@ define(function(require,exports,module){
             var rule;
             $scope.type = data.type || "Edit";
             $scope.multi = data.multi || false;
+            $scope.delegate = data.delegate || false;
             $scope.display = "none";
             $scope.left = 0;
             $scope.top = 0;

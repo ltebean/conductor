@@ -12,7 +12,7 @@ define(function(require,exports,module){
         this.doc = opt.doc || document;
         this.color = opt.color;
         this.films = [];
-        this.index=opt.index||"";
+        this.index=opt.index||(opt.index==0?0:"");
         if(opt.active == true){
             Dyer.activeInstance = this;
         }

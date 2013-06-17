@@ -66,9 +66,10 @@ define(function(require,exports,module){
                kase.selected = j == index;
             });
 
-
-            $scope.selector = $scope.cases[index].selector;
-            $scope.parent = $scope.cases[index].parent;
+            if($scope.cases[index]){
+                $scope.selector = $scope.cases[index].selector;
+                $scope.parent = $scope.cases[index].parent;
+            }
             // $scope.fire("pick");
         }
 

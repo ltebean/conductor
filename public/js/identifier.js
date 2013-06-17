@@ -83,13 +83,31 @@ define(function(require,exports,module){
         return results;
     }
 
+    Identifier.prototype.getClass = function(elem){
+        return elem.attr("class").split(/\s/).map(function(cls){return "."+cls}).join("");
+    }
+
     Identifier.prototype.traverseParent = function(elem,selector){
         var body = this.doc.body;
-        var parent;
-        if(elem.parent().get(0) == body){
+        var parent_selector;
+        var new_selector;
+        var parent = elem.parent();
+        if(parent.get(0) == body){
             return selector;
         }else{
-            return [this.identifySingle(elem.parent()),selector].join(" ");
+            if(parent.attr("class")){
+                parent_selector = this.getClass(parent);
+            }else{
+                parent_selector = parent.get(0).tagName.toLowerCase();
+            }
+
+            new_selector = [parent_selector,selector].join(" ");
+            if(this.onlyOne(new_selector)){
+                return new_selector; 
+            }else{
+                return [this.identifySingle(parent),selector].join(" ");
+            }
+            
         }
     }
 
@@ -98,7 +116,7 @@ define(function(require,exports,module){
         if(elem.attr("id")){
             selector = "#"+elem.attr("id");
         }else if(elem.attr("class")){
-            selector = elem.attr("class").split(/\s/).map(function(cls){return "."+cls}).join("");
+            selector = this.getClass(elem);
             if(!this.onlyOne(selector)){
                 selector = this.traverseParent(elem,selector);
             }

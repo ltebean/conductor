@@ -1,7 +1,21 @@
 define(function(require,exports,module){
     var Event = require("event");
+    var Dragable = require("dragable");
     var Identifier = require("identifier");
     var Dyer = require("dyer");
+
+    angular.module("app").directive("popDragable", function(){
+        return function($scope,$element){
+            var elem = $($element[0])
+            var dd = new Dragable({
+                elem:elem,
+                handler:elem.find(".popover-title")
+            });
+            $scope.$on("$destroy",function( event ) {
+                dd.destruct();
+            });
+        };
+    });
 
     var EditPanel = function($scope,$element){
         var self = this;
@@ -66,9 +80,10 @@ define(function(require,exports,module){
                kase.selected = j == index;
             });
 
-
-            $scope.selector = $scope.cases[index].selector;
-            $scope.parent = $scope.cases[index].parent;
+            if($scope.cases[index]){
+                $scope.selector = $scope.cases[index].selector;
+                $scope.parent = $scope.cases[index].parent;
+            }
             // $scope.fire("pick");
         }
 
@@ -105,7 +120,8 @@ define(function(require,exports,module){
         $scope.pop = function(){
             $scope.display = "block";
             apply();
-            $($element[0]).find("#ga-key").get(0).focus();
+            var elem = $($element[0]);
+            elem.find("#ga-key").get(0).focus();
             
         }
 

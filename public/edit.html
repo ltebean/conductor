@@ -8,7 +8,9 @@
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap-tooltip.js"></script>
     <style>
-    
+    html,body{
+        height:100%;
+    }
     #frm{
         position: absolute;
         top: 0;
@@ -154,6 +156,11 @@
             display: none;
         }
 
+        .editpanel .popover-title{
+            -webkit-user-select: none;
+            cursor:move;
+        }
+
         .editpanel .control-label{
             width:70px;
         }
@@ -163,7 +170,7 @@
         }
     </style>
 
-    <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px">
+    <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px" pop-dragable>
         <h3 class="popover-title">{{type}} {{cb}}</h3>
         <div class="popover-content">
             <form class="form-horizontal" ng-submit="ok()">

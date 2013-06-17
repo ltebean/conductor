@@ -59,8 +59,35 @@
             });
         }
 
+        function funcGA(key,action,attrs){
+            dpga(key)
+        }
+
+        function funcHippo(key,action,attrs){
+            var hippokeys = Object.keys(attrs).filter(function(key){
+                return key.indexOf("hippo-") == 0;
+            }).forEach(function(key){
+                attrs[key.split("hippo-")[1]] = attrs[key];
+                delete attrs[key]
+            });
+
+            _hip.push(['mv', DP.mix({
+                module: key,
+                action:(action=='show'?'browse':action),
+                content:this.getAttribute('href')||'',
+                title:this.innerText || this.textContent
+            },attrs)]);
+        }
+
+        function funcBody(func){
+            return func.toString().match(/^function\s*\w*\([\w,]+\)\s*{([\s\S]*)}$/)[1].trim();
+        }
+
         var setDefaultCallback = function(page){
-            var def = {"ga":"dpga(key)"};
+            var def = {
+                "ga":funcBody(funcGA),
+                "hippo":funcBody(funcHippo)
+            };
             try{
                 page.callback = JSON.parse(page.callback)
             }catch(e){

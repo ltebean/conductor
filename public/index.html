@@ -3,7 +3,7 @@
 <head>
     <title>Conductor</title>
 
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css"/>
 
     <link rel="stylesheet" href="/public/css/ace.min.css" />
     <link rel="stylesheet" href="/public/css/ace-responsive.min.css" />
@@ -179,7 +179,7 @@
                     <a class="brand" href="#">Conductor</a>
                     <p class="navbar-text pull-right">
                         {{user.username}} 
-                        <a class="navbar-link" ng-click="logout()">退出</a>
+                        <a class="navbar-link" ng-click="logout()">Logout</a>
                     </p>
                 </div>
             </div>
@@ -188,11 +188,11 @@
             <div id="sidebar">
                 <ul class="nav nav-list" >
                     <li ng-repeat="group in groups">
-                        <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn btn-mini" ng-click="deleteGroup(group)">删除</button></a>
+                        <a ng-click="viewGroup(group)">{{group.name}}<button ng-show="isSuper" type="submit" class="btn btn-mini" ng-click="deleteGroup(group)">delete</button></a>
                         
                     </li>
                 </ul>
-                <a ng-show="isSuper" class="btn btn-small" href="#newGroupDialog" role="button" data-toggle="modal">添加分组</a>
+                <a ng-show="isSuper" class="btn btn-small" href="#newGroupDialog" role="button" data-toggle="modal">add group</a>
             </div>
             <div id="main-content" class="clearfix">
                 
@@ -206,9 +206,9 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>pageKey</th>
-                                <th>样例页面</th>
-                                <th>操作</th>
+                                <th>PageKey</th>
+                                <th>Sample Page</th>
+                                <th>Operation</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -216,9 +216,9 @@
                                 <td class="hidden-480">{{page.pageKey}}</td>
                                 <td>{{page.url}}</td>
                                 <td>
-                                    <a ng-show="isAdmin||isSuper" class="btn btn-mini btn-info" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">修改</a>
-                                    <button type="submit" class="btn btn-mini btn-info" ng-click="viewPage(page)">查看</button>
-                                    <button ng-show="isSuper" type="submit" class="btn btn-mini btn-info" ng-click="deletePage(page)">删除</button>
+                                    <a ng-show="isAdmin||isSuper" class="btn btn-mini btn-info" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">edit</a>
+                                    <button type="submit" class="btn btn-mini btn-info" ng-click="viewPage(page)">view</button>
+                                    <button ng-show="isSuper" type="submit" class="btn btn-mini btn-info" ng-click="deletePage(page)">delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -226,7 +226,7 @@
                 </div>
                 <div class="">
                     <form class="form-inline">
-                        <a ng-show="isSuper" class="btn btn-small" href="#newDialog"  role="button" data-toggle="modal">添加</a>
+                        <a ng-show="isSuper" class="btn btn-small" href="#newDialog"  role="button" data-toggle="modal">add</a>
                     </form>
                 </div>
             </div>
@@ -235,17 +235,17 @@
     <div id="modalDialog">
         <div id="updateDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="myModalLabel">修改</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="myModalLabel">Edit</h3>
             </div>
             <div class="modal-body form-horizontal">
                 <div class="control-group">
-                    <label class="control-label" for="input01">页面URL</label>
+                    <label class="control-label" for="input01">Sample Page URL:</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToUpdate.url" class="input-xlarge">
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="input01">callback:</label>
+                    <label class="control-label" for="input01">Callback:</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToUpdate.callback" class="input-xlarge">
                     </div>
@@ -253,58 +253,58 @@
             </div>
                 
             <div class="modal-footer">
-                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">修改</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="updatePage(pageToUpdate)">Update</button>
             </div>
         </div>
 
         <div id="newDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">新建</h3>
+                <h3 id="myModalLabel">Add</h3>
             </div>
             <div class="modal-body form-horizontal">
                 <div class="control-group">
-                    <label class="control-label" for="input01">pageKey</label>
+                    <label class="control-label" for="input01">PageKey:</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToCreate.pageKey" required class="input-xlarge">
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="input01">页面URL</label>
+                    <label class="control-label" for="input01">Sample Page URL:</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToCreate.url" class="input-xlarge">
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="input01">callback</label>
+                    <label class="control-label" for="input01">Callback:</label>
                     <div class="controls">
                         <input type="text" ng-model="pageToCreate.callback" class="input-xlarge">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-small btn-primary" ng-disabled="form.$invalid" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">新建</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-small btn-primary" ng-disabled="form.$invalid" data-dismiss="modal" aria-hidden="true" ng-click="createPage(pageToCreate)">Create</button>
             </div>
         </div>
 
         <div id="newGroupDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">新建</h3>
+                <h3 id="myModalLabel">Add Group</h3>
             </div>
             <div class="modal-body form-horizontal">
                 <div class="control-group">
-                    <label class="control-label" for="input01">名称</label>
+                    <label class="control-label" for="input01">Name:</label>
                     <div class="controls">
                         <input type="text" ng-model="groupToCreate.name" class="input-xlarge">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createGroup(groupToCreate)">新建</button>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-small btn-primary" data-dismiss="modal" aria-hidden="true" ng-click="createGroup(groupToCreate)">Create</button>
             </div>
         </div>
 </body>

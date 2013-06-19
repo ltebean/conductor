@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/public/css/ace.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-skins.min.css" />
+
     <script src="/public/js/angular.js"></script>
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/js/bootstrap-tooltip.js"></script>
     <style>
     html,body{
         height:100%;
+        font-size:14px;
     }
     #frm{
         position: absolute;
@@ -104,7 +109,8 @@
                 margin-right: 5px;
                 font-size: 12px;
                 text-align: center;
-                line-height: 16px;
+                line-height: 18px;
+                padding-right: 3px;                
                 color: #fff;
             }
 
@@ -116,7 +122,7 @@
             <div class="main" ng-show="open">
                 <div class="nav-wrap">
                     <div class="tools">
-                        <a type="button" id="go" class="btn btn-small" data-placement="right" data-original-title='press space to toggle' ><i class="icon-search"></i></a>
+                        <a type="button" id="go" class="btn btn-small btn-light" data-placement="right" data-original-title='press space to toggle' ><i class="icon-search"></i></a>
                     </div>
 
 
@@ -154,6 +160,7 @@
             width:320px;
             top:20px;
             display: none;
+            border-radius: 0px;
         }
 
         .editpanel .popover-title{
@@ -167,6 +174,12 @@
 
         .editpanel .controls{
             margin-left:70px;
+        }
+        .form-horizontal .control-group{
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 10px;
         }
     </style>
 
@@ -182,7 +195,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label">事件：</label>
+                    <label class="control-label">event：</label>
                     <div class="controls">
                         <label for="action-click" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="click" id="action-click" name="ga-action" />click</label>
                         <label for="action-hover" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="hover" id="action-hover" name="ga-action" />hover</label>
@@ -191,7 +204,7 @@
                 </div> 
 
                 <div class="control-group">
-                    <label class="control-label">类型：</label>
+                    <label class="control-label">callback：</label>
                     <div class="controls">
                         <label class="radio inline" ng-repeat="cb in callbacks"  for="chk-{{cb}}">
                         <input type="radio" name="cb" ng-checked="$parent.cb == ga" ng-value="cb" ng-model="$parent.cb" id="chk-{{cb}}" />{{cb}}
@@ -200,7 +213,7 @@
                 </div>
             
                 <div class="control-group">
-                    <label class="control-label">多个：</label>
+                    <label class="control-label">multi：</label>
                     <div class="controls">
                         <label class="checkbox">
                           <input type="checkbox" ng-model="multi" ng-change="changemulti()">
@@ -209,7 +222,7 @@
                 </div>
 
                 <div class="pagination pagination-small control-group" ng-show="multi && cases.length">
-                    <label class="control-label">组：</label>
+                    <label class="control-label">group：</label>
                     <div class="controls">
                       <ul>
                         <li ng-repeat="kase in cases" ng-class="{active:kase.selected}"><a href="javascript:;" ng-click="pickmulti()" ng-mouseenter="dye()">{{$index+1}}</a></li>
@@ -217,9 +230,23 @@
                   </div>
                 </div>
     
-                
+        
+
                 <div class="control-group">
-                    <div class="control-label">延迟出现：</div>
+                    <div class="control-label">selector：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="selector">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">parent：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="parent">
+                    </div>
+                </div>
+                  <div class="control-group">
+                    <div class="control-label">lazy：</div>
                     <div class="controls">
                         <label class="checkbox">
                           <input type="checkbox" ng-model="delegate">
@@ -227,22 +254,8 @@
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <div class="control-label">选择器：</div>
-                    <div class="controls">
-                        <input type="text" ng-model="selector">
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <div class="control-label">父节点：</div>
-                    <div class="controls">
-                        <input type="text" ng-model="parent">
-                    </div>
-                </div>
-
-                <input type="submit" class="btn" ng-click="done()" value="Submit" />
-                <a class="btn" ng-click="close()">Cancel</a>
+                <input type="submit" class="btn btn-small" ng-click="done()" value="Submit" />
+                <a class="btn btn-small" ng-click="close()">Cancel</a>
             </form>
         </div>
       </div>

@@ -114,8 +114,8 @@
                 color: #fff;
             }
 
-            #pane .nav .remove{
-                float: right;
+            #pane .nav .remove .icon-remove{
+                margin:0px;
             }
         </style>
         <div id="pane" ng-controller="Rules">
@@ -141,9 +141,9 @@
                                 </div>
                                 <div class="list-line" ng-repeat='rule in rules | filter:{action:action} | filter:{cb:cb}'>
                                     <div class="title" ng-click="edit()">
+                                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
                                         <i style="background-color:{{rule.color}}">{{rule.list.indexOf(rule)+1}}</i>
                                         <a href="javascript:;">{{rule.key}}</a>
-                                        <a class="remove" ng-click="remove()"><i class="icon-remove"></i></a>
                                     </div>
                                 </div>
                             </div>

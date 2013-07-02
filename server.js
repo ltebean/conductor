@@ -12,6 +12,7 @@ app.configure(function () {
 	app.use(express.bodyParser());
 	app.use('/public', express.static(__dirname + '/public'));
 	app.use(app.router);	
+	app.use(require("./ajax-proxy"));
 	app.use(function(err, req, res, next){
 		res.send(500, { error: err.message});
 	});

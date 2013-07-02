@@ -58,7 +58,6 @@ DP.provide(["io/jsonp","event/live","util/json"],function(D,JSONP,Live,JSON){
             for(var cb in callback){
                 funcs[cb] = new Function("key,action",callback[cb]);
             }
-            console.log(funcs);
         }catch(e){}
     }).send();
 });

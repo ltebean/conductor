@@ -78,7 +78,6 @@ define(function(require,exports,module){
         var doc = win.document;
         var identifier = new Identifier(doc);
         $(doc).on("mousemove",function(e){
-            console.log(e);
             parent_body.trigger("mousemove",[e]);
         });
         $(doc).on("keyup",keyboardEvents);

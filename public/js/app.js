@@ -5,10 +5,11 @@ define(function(require,exports,module){
     var PageKey = location.href.match(/\/edit\/([\w-]+)/)[1];
     var PageUrl = null;
 
+    var parent_body = $(document.body);
     var loaded = false;
     var active = false;
     var inspector;
-
+    
     function hasNthChild(str){
         if(!str){str = "";}
         return str.indexOf("nth-child")!=-1
@@ -76,7 +77,10 @@ define(function(require,exports,module){
         var win = $(this).get(0).contentWindow;
         var doc = win.document;
         var identifier = new Identifier(doc);
-
+        $(doc).on("mousemove",function(e){
+            console.log(e);
+            parent_body.trigger("mousemove",[e]);
+        });
         $(doc).on("keyup",keyboardEvents);
         $(doc).on("click",function(){
             edit_scope.close();

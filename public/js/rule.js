@@ -18,8 +18,7 @@ define(function(require,exports,module){
             this.dyer = new Dyer({
                 doc:doc,
                 color:this.color,
-                active:false,
-                index:this.index||""
+                active:false
             });
         }
     }
@@ -37,7 +36,6 @@ define(function(require,exports,module){
         this.parent = data.parent;
         this.selector = data.selector;
         this.cases = data.cases;
-        this.index=data.index||"";
         this.dyeSelf();
     }
 
@@ -54,13 +52,42 @@ define(function(require,exports,module){
     }
 
     Rule.prototype.dyeSelf = function(){
-        var elems,doc,dyer=this.dyer;
+        var self=this,elems,doc,dyer=this.dyer;
+
         if(dyer){
             doc = dyer.getDoc();
             elems = $([this.parent,this.selector].join(" "),doc);
             dyer.clear();
             elems.each(function(i,el){
                 dyer.dye(el);
+            });
+            this.updateIndex();
+        }
+    }
+
+    Rule.prototype.updateIndex = function(){
+        var dyer = this.dyer,index;
+
+        if(dyer){
+            index = this.list.indexOf(this) + 1;
+            dyer.films.forEach(function(film){
+                var index_tip = film.find(".tip")
+                if(!index_tip.length){
+                    index_tip = $("<div />").css({
+                        "width":14,
+                        "height":14,
+                        "line-height":"14px",
+                        "text-align":"center",
+                        "background-color":"#111111",
+                        "opacity":"0.7",
+                        "position":"relative",
+                        "top":0,
+                        "left":0,
+                        "color":"#fff"
+                    }).addClass("tip");
+                    index_tip.appendTo(film);
+                }
+                index_tip.html(index);
             });
         }
     }

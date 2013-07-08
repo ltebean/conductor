@@ -42,7 +42,7 @@ define(function(require,exports,module){
         function possible_selectors(elem){
             var selectors;
             if(elem.attr("class")){
-                selectors = self.getClass(elem);
+                selectors = self.getClasses(elem);
             }else{
                 selectors = [elem.get(0).tagName.toLowerCase()];
             }
@@ -81,8 +81,12 @@ define(function(require,exports,module){
         return results;
     }
 
+    Identifier.prototype.getClasses = function(elem){
+        return elem.attr("class").trim().split(/\s/).map(function(cls){return "."+cls});
+    }
+
     Identifier.prototype.getClass = function(elem){
-        return elem.attr("class").trim().split(/\s/).map(function(cls){return "."+cls}).join("");
+        return this.getClasses(elem).join("");
     }
 
     Identifier.prototype.traverseParent = function(elem,selector){

@@ -6,6 +6,7 @@ define(function(require,exports,module){
     var PageUrl = null;
 
     var parent_body = $(document.body);
+    var storage = {};
     var loaded = false;
     var active = false;
     var inspector;
@@ -195,10 +196,38 @@ define(function(require,exports,module){
         });
     });
 
+    function mergeConfig(mine,server){
+        mine = JSON.parse(mine);
+        server = JSON.parse(server);
+
+        server.rules = server.rules || [];
+
+        server.rules.forEach(function(server_item){
+            if(!mine.rules.some(function(item){
+                item.key == server_item.key
+            })){
+                mine.rules.push(server_item);
+            }
+        });
+        return JSON.stringify(mine);
+    }
+
     rules_scope.on("save",function(data){
-        $.post("/api/page/"+PageKey+"/config",{
-            config:JSON.stringify(data),
-            url:PageUrl
+
+        var myconfig = JSON.stringify(data);
+
+        $.get("/api/page/"+PageKey,function(serverdata){
+            // 如果期间有过其他人做改动
+            if(serverdata.config != storage.config){
+                myconfig = mergeConfig(myconfig,serverdata.config);
+            }
+
+            storage.config = myconfig;
+
+            $.post("/api/page/"+PageKey+"/config",{
+                config:myconfig,
+                url:PageUrl
+            });
         });
     });
 
@@ -208,6 +237,9 @@ define(function(require,exports,module){
     $.get("/api/page/"+PageKey,function(data){
         var config = data.config;
         var callbacks;
+
+        storage.config = config;
+
         if(config){
             try{
                 config = JSON.parse(config);

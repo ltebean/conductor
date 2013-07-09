@@ -204,7 +204,7 @@ define(function(require,exports,module){
 
         server.rules.forEach(function(server_item){
             if(!mine.rules.some(function(item){
-                item.key == server_item.key
+                return item.key == server_item.key
             })){
                 mine.rules.push(server_item);
             }

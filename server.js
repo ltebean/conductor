@@ -55,6 +55,6 @@ app.get('/edit/:id',function(req,res){
 app.get('/proxy',require('./proxy'));
 
 var server=http.createServer(app);
-var port = 8080;
+var port = 3000;
 server.listen(port); 
 console.log("server listening on port "+port);

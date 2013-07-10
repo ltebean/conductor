@@ -82,7 +82,7 @@ define(function(require,exports,module){
     }
 
     Identifier.prototype.getClasses = function(elem){
-        return elem.attr("class").trim().split(/\s/).map(function(cls){return "."+cls});
+        return elem.attr("class").trim().split(/\s+/).map(function(cls){return "."+cls});
     }
 
     Identifier.prototype.getClass = function(elem){

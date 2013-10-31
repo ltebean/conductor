@@ -82,7 +82,7 @@ define(function(require,exports,module){
                         rules.push({
                             elem:[el],
                             key:hip.module,
-                            ctr:hip.ratio
+                            ctr:hip.ratio*100
                         });
                     }
                 }

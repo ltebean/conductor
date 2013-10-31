@@ -23,7 +23,7 @@ define(function(require,exports,module){
      * @param  {Number} index [description]
      * @return {[type]}         [description]
      */
-    Dyer.prototype.dye = function(elem){
+    Dyer.prototype.dye = function(elem,opt){
         elem = $(elem,this.doc);
 
         if(!elem.is(":visible")){return false;}
@@ -39,6 +39,25 @@ define(function(require,exports,module){
             "pointer-events":"none",
             "z-index":9999
         });
+
+        if(opt && opt.label){
+            var tip = film.find(".tip");
+            if(!tip.length){
+                tip = $("<div />").css({
+                    "height":14,
+                    "line-height":"14px",
+                    "text-align":"center",
+                    "background-color": opt.label_color || "#111111",
+                    "opacity":"0.7",
+                    "position":"absolute",
+                    "top":0,
+                    "left":0,
+                    "color":"#fff"
+                }).addClass("tip");
+                tip.appendTo(film);
+            }
+            tip.html(opt.label);
+        }
         
         this.films.push(film);
         film.appendTo(this.doc.body);

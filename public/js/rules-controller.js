@@ -17,8 +17,9 @@ define(function(require,exports,module){
 
         $scope.safeapply = apply;
 
-        $scope.dyeall = function(){
-            $scope.rules.forEach(function(rule,index){
+        $scope.dyeall = function(filter){
+            filter = filter || function(){return true;}
+            $scope.rules.filter(filter).forEach(function(rule,index){
                 rule.createDyer($scope.doc);
                 rule.dyeSelf();
             });

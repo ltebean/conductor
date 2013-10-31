@@ -85,6 +85,7 @@ define(function(require,exports,module){
         $(doc).on("click",function(){
             edit_scope.close();
         });
+        
         /**
          * 元素检查器
          * @type {Inspector}

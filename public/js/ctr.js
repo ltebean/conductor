@@ -63,7 +63,8 @@ define(function(require,exports,module){
                 var onclick = $(el).attr("onclick");
                 var hippo_key = onclick.match(/mv\(\'module\'\,\'([\w\d_]+)\'\)/);
                 if(!hippo_key){
-                    hippo_key = onclick.match(/module:\s*'([\w\d_]+)'/)[1];
+                    hippo_key = onclick.match(/module:\s*'([\w\d_]+)'/);
+                    hippo_key = hippo_key && hippo_key[1];
                 }else{
                     hippo_key = hippo_key[1];
                 }

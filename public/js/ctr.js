@@ -128,7 +128,7 @@ define(function(require,exports,module){
                 url: url.split("http://")[1],
                 database: "dw57",
                 date: yesterDay(),
-                dateRange: 1
+                dateRange: 3
             })
             .success(function(data){
                 hippo_data = data.msg;

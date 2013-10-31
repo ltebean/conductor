@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/public/css/ace.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-skins.min.css" />
+
+    <script src="/public/js/angular.js"></script>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/bootstrap-tooltip.js"></script>
+    <style>
+    html,body{
+        height:100%;
+        font-size:14px;
+    }
+    #frm{
+        position: absolute;
+        top: 0;
+        height:100%;
+        width:100%;
+    }
+    </style>
+    
+</head>
+<body>
+    <div class="mainpage">
+        <style>
+            .hint{
+                background-color: #f53;
+                color:#fff;
+                position: fixed;
+                width:500px;
+                margin:0 auto;
+                top: 0;
+                text-align: center;
+                padding: 5px;
+            }
+            #pane{
+                position:fixed;
+                display: table;
+                top:0;
+                right: 0;
+                z-index: 1010;
+                padding: 1px;
+                background-color: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                height:100%;
+            }
+            #pane .toggle{
+                display: table-cell;
+                vertical-align: middle;
+                background-color: #eee;
+                border-radius: 3px 0 0 3px;
+            }
+
+            #pane .toggle i{
+                background-image: url("/public/img/glyphicons-halflings.png");
+                background-position: -432px -72px;
+                width: 14px;
+                height: 14px;
+                display: inline-block;
+            }
+
+            #pane .main{
+                display: table-cell;
+                width:240px;
+            }
+
+            #pane .tools{
+                padding:10px;
+            }
+            
+            #pane .nav-wrap{
+                overflow: auto;
+                height:100%;
+            }
+
+            #pane .nav{
+                padding:0;
+            }
+            
+            #pane .nav .list-line{
+                padding:5px 10px;
+                border-bottom:1px dashed #ccc;
+            }
+            
+            #pane .nav h3{
+                border-left:5px solid #333;
+                padding:3px 0 3px 7px;
+                color:#333;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 14px;
+            }
+
+            #pane .nav li:after{
+                clear:both;
+                display: block;
+                content: "\20"
+            }
+
+            #pane .nav i{
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                margin-right: 5px;
+                font-size: 12px;
+                text-align: center;
+                line-height: 18px;
+                padding-right: 3px;                
+                color: #fff;
+            }
+
+            #pane .nav .remove .icon-remove{
+                margin:0px;
+            }
+        </style>
+        <div id="pane" ng-controller="Rules">
+            <div class="main" ng-show="open">
+                <div class="nav-wrap">
+                   
+
+                    <div class="nav nav-list">
+                        
+                        <div ng-repeat="cb in ['hippo']">
+                            <h3 class="title">callback {{cb}}</h3>
+                            <div ng-repeat="action in ['click']">
+                                <div class="list-line">
+                                    <div class="title">action {{action}}</div>
+                                </div>
+                                <div class="list-line" ng-repeat='rule in rules | filter:{action:"click"} | filter:{cb:"hippo"}'>
+                                    <div class="title" ng-click="edit()">
+                                        
+                                        <i style="background-color:{{rule.color}}">{{rule.list.indexOf(rule)+1}}</i>
+                                        <a href="javascript:;">{{rule.key}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <iframe id="frm" src="" frameborder="0"></iframe>
+    </div>
+
+    <style>
+        .editpanel{
+            width:320px;
+            top:20px;
+            display: none;
+            border-radius: 0px;
+        }
+
+        .editpanel .popover-title{
+            -webkit-user-select: none;
+            cursor:move;
+        }
+
+        .editpanel .control-label{
+            width:70px;
+        }
+
+        .editpanel .controls{
+            margin-left:70px;
+        }
+        .form-horizontal .control-group{
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <div class="editpanel popover" id="edit_pane" ng-controller="EditPanel" style="display:{{display}};left:{{left}}px;top:{{top}}px" pop-dragable>
+        <h3 class="popover-title">{{type}} {{cb}}</h3>
+        <div class="popover-content">
+            <form class="form-horizontal" ng-submit="ok()">
+                <div class="control-group">
+                    <label for="ga-key" class="control-label">key：</label>
+                    <div class="controls">
+                        <input type="text" id="ga-key" placeholder="dp_ga_{city}_{channel}_{n}" ng-model="key">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">event：</label>
+                    <div class="controls">
+                        <label for="action-click" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="click" id="action-click" name="ga-action" />click</label>
+                        <label for="action-hover" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="hover" id="action-hover" name="ga-action" />hover</label>
+                        <label for="action-show" class="radio inline"><input class="inline-inputs" type="radio" ng-model="action" diable value="show" id="action-show" name="ga-action" />show</label>
+                    </div>
+                </div> 
+
+                <div class="control-group">
+                    <label class="control-label">callback：</label>
+                    <div class="controls">
+                        <label class="radio inline" ng-repeat="cb in callbacks"  for="chk-{{cb}}">
+                        <input type="radio" name="cb" ng-checked="$parent.cb == ga" ng-value="cb" ng-model="$parent.cb" id="chk-{{cb}}" />{{cb}}
+                        </label>
+                    </div>
+                </div>
+            
+                <div class="control-group">
+                    <label class="control-label">multi：</label>
+                    <div class="controls">
+                        <label class="checkbox">
+                          <input type="checkbox" ng-model="multi" ng-change="changemulti()">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pagination pagination-small control-group" ng-show="multi && cases.length">
+                    <label class="control-label">group：</label>
+                    <div class="controls">
+                      <ul>
+                        <li ng-repeat="kase in cases" ng-class="{active:kase.selected}"><a href="javascript:;" ng-click="pickmulti()" ng-mouseenter="dye()">{{$index+1}}</a></li>
+                      </ul>
+                  </div>
+                </div>
+    
+        
+
+                <div class="control-group">
+                    <div class="control-label">selector：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="selector">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">parent：</div>
+                    <div class="controls">
+                        <input type="text" ng-model="parent">
+                    </div>
+                </div>
+                  <div class="control-group">
+                    <div class="control-label">lazy：</div>
+                    <div class="controls">
+                        <label class="checkbox">
+                          <input type="checkbox" ng-model="delegate">
+                        </label>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-small" ng-click="done()" value="Submit" />
+                <a class="btn btn-small" ng-click="close()">Cancel</a>
+            </form>
+        </div>
+      </div>
+    <script src="/public/js/sea.js" data-main="hippoStat"></script>
+
+</body>
+</html>

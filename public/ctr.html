@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/public/css/ace.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/public/css/ace-skins.min.css" />
+
+    <script src="/public/js/angular.js"></script>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/bootstrap-tooltip.js"></script>
+    <style>
+    html,body{
+        height:100%;
+        font-size:14px;
+    }
+    #frm{
+        position: absolute;
+        top: 0;
+        height:100%;
+        width:100%;
+    }
+    </style>
+    
+</head>
+<body  ng-cloak>
+    <div class="mainpage" ng-controller="MainCtrl">
+        <style>
+            .hint{
+                background-color: #f53;
+                color:#fff;
+                position: fixed;
+                width:500px;
+                margin:0 auto;
+                top: 0;
+                text-align: center;
+                padding: 5px;
+            }
+            #pane{
+                position:fixed;
+                display: table;
+                top:0;
+                right: 0;
+                z-index: 1010;
+                padding: 1px;
+                background-color: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                height:100%;
+            }
+            #pane .toggle{
+                display: table-cell;
+                vertical-align: middle;
+                background-color: #eee;
+                border-radius: 3px 0 0 3px;
+            }
+
+            #pane .toggle i{
+                background-image: url("/public/img/glyphicons-halflings.png");
+                background-position: -432px -72px;
+                width: 14px;
+                height: 14px;
+                display: inline-block;
+            }
+
+            #pane .main{
+                display: table-cell;
+                width:240px;
+            }
+
+            #pane .tools{
+                padding:10px;
+            }
+            
+            #pane .nav-wrap{
+                overflow: auto;
+                height:100%;
+            }
+
+            #pane .nav{
+                padding:0;
+            }
+            
+            #pane .nav .list-line{
+                padding:5px 10px;
+                border-bottom:1px dashed #ccc;
+            }
+            
+            #pane .nav h3{
+                border-left:5px solid #333;
+                padding:3px 0 3px 7px;
+                color:#333;
+                margin-left:5px;
+                font-size: 14px;
+                line-height: 14px;
+            }
+
+            #pane .nav li:after{
+                clear:both;
+                display: block;
+                content: "\20"
+            }
+
+            #pane .nav i{
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                margin-right: 5px;
+                font-size: 12px;
+                text-align: center;
+                line-height: 18px;
+                padding-right: 3px;                
+                color: #fff;
+            }
+
+            #pane .nav .remove .icon-remove{
+                margin:0px;
+            }
+        </style>
+        <div id="pane" ng-controller="Rules">
+            <div class="main">
+                <div class="nav-wrap">
+                    <div class="tools">
+                        <!--input type="text" placeholder="from: yyyy-mm-dd">
+                        <input type="number" placeholder="days: n">
+                        
+                        <a type="button" class="btn btn-small btn-light" ng-click="search()"><i class="icon-search"></i></a-->
+
+                        <span ng-show="searching">loading...</span>
+                    </div>
+
+                    <div class="nav nav-list">
+                        <div class="list-line"></div>
+                        
+                        <div class="list-line" ng-repeat='rule in rules'>
+                            <div class="title" ng-click="edit()">
+                                <i style="background-color:{{rule.color}}">{{rule.ctr}}</i>
+                                <a href="javascript:;">{{rule.key}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <iframe id="frm" src="" frameborder="0"></iframe>
+    </div>
+
+    <style>
+        .editpanel{
+            width:320px;
+            top:20px;
+            display: none;
+            border-radius: 0px;
+        }
+
+        .editpanel .popover-title{
+            -webkit-user-select: none;
+            cursor:move;
+        }
+
+        .editpanel .control-label{
+            width:70px;
+        }
+
+        .editpanel .controls{
+            margin-left:70px;
+        }
+        .form-horizontal .control-group{
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    
+    <script src="/public/js/sea.js" data-main="ctr"></script>
+
+</body>
+</html>

@@ -1,6 +1,8 @@
 var Step = require('step');
 var db = require('./db.js').sharedDB;
 
+// var fake_data = require("./fake_page_config.json");
+
 exports.find=function(req, res){ 
 	Step(
 		function getCollection(){
@@ -16,7 +18,8 @@ exports.find=function(req, res){
 		});
 }
 
-exports.load=function(req, res){ 
+exports.load=function(req, res){
+	// return res.send(fake_data);
 	Step(
 		function getCollection(){
 			db.collection('pageConfig', this); 

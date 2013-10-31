@@ -169,6 +169,7 @@
         $scope.viewPage=function(page){
             window.open('/edit/'+page.pageKey);
         }
+
     }
     </script>
 </head>
@@ -219,6 +220,7 @@
                                     <a ng-show="isAdmin||isSuper" class="btn btn-mini btn-info" href="#updateDialog" ng-click="showPageToUpdate(page)" role="button" data-toggle="modal">edit</a>
                                     <button type="submit" class="btn btn-mini btn-info" ng-click="viewPage(page)">view</button>
                                     <button ng-show="isSuper" type="submit" class="btn btn-mini btn-info" ng-click="deletePage(page)">delete</button>
+                                    <a class="btn btn-mini btn-info" ng-href="/ctr/{{page.pageKey}}" target="_blank" role="button" data-toggle="modal">view ctr</a>
                                 </td>
                             </tr>
                         </tbody>

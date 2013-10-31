@@ -4,7 +4,7 @@ var util = require("util");
 var auth=require('./auth');
 var pageConfig = require('./pageConfig.js');
 var groupConfig = require('./groupConfig.js');
-
+var ctrProxy = require('./ctrProxy.js');
 
 var app=express();
 app.configure(function () {
@@ -40,6 +40,9 @@ app.get('/api/user', auth.loadUser);
 app.post('/api/user/login', auth.login); 
 app.post('/api/user/logout', auth.logout); 
 
+//ctr api
+app.post('/api/ctrproxy', ctrProxy);
+
 //static pages
 app.get('/', auth.checkAuth, function(req,res){
 	res.sendfile(__dirname+'/public/index.html');
@@ -50,6 +53,11 @@ app.get('/login', function(req,res){
 app.get('/edit/:id',function(req,res){
     res.sendfile(__dirname+'/public/edit.html'); 
 });
+
+app.get('/ctr/:id',function(req,res){
+    res.sendfile(__dirname+'/public/ctr.html'); 
+});
+
 
 //proxy
 app.get('/proxy',require('./proxy'));

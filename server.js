@@ -4,7 +4,7 @@ var util = require("util");
 var auth=require('./auth');
 var pageConfig = require('./pageConfig.js');
 var groupConfig = require('./groupConfig.js');
-var ctrProxy = require('./ctrProxy.js');
+var ctrProxy = require('./ctrproxy.js');
 
 var app=express();
 app.configure(function () {
